@@ -1,5 +1,6 @@
 # Nu primesc notă pentru că nu am pus titlu și descriere
-
+Titlu: ChicManager
+Descrierea: ChicManager este o aplicație C++ ce simulează administrarea unui magazin de haine prin concepte avansate de POO. Sistemul utilizează o clasă abstractă pentru produse, din care moștenesc categorii specifice (rochii, pantofi, accesorii), încapsulând atribute precum prețul și stocul. Folosind containere dinamice și polimorfism, aplicația gestionează coșul de cumpărături și aplică reduceri prin funcții virtuale, oferind o soluție eficientă pentru managementul interactiv al unui inventar de modă.
 ### Folosiți template-ul corespunzător grupei voastre!
 
 | Laborant  | Link template                                |
