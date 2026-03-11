@@ -1,5 +1,4 @@
-# Nu primesc notă pentru că nu am pus titlu și descriere
-Titlu: ChicAtelier - Sistem de management și vizualizare vestimentară
+# ChicAtelier - Sistem de management și vizualizare vestimentară
 
 Descrierea: ChicAtelier este o aplicație C++ care transformă gestiunea unui magazin de haine într-o experiență interactivă. Proiectul funcționează ca un asistent digital care combină logica de business cu stilismul vestimentar.
 
