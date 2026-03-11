@@ -1,4 +1,16 @@
-# Nu primesc notă pentru că nu am pus titlu și descriere
+# ChicAtelier - Sistem de management și vizualizare vestimentară
+
+Descrierea: ChicAtelier este o aplicație C++ care transformă gestiunea unui magazin de haine într-o experiență interactivă. Proiectul funcționează ca un asistent digital care combină logica de business cu stilismul vestimentar.
+
+Ce face exact proiectul:
+
+-Gestiune inteligentă: Administrează stocurile în timp real, controlând prețurile, mărimile și disponibilitatea fiecărui articol prin principii OOP.
+
+-Motor de Outfit-uri: Verifică logic dacă piesele alese sunt compatibile (de exemplu, sistemul te împiedică să pui două perechi de pantaloni pe același manechin) și creează entități noi numite "Outfit".
+
+-Calcul de Business: Aplică automat reduceri la seturi de haine și actualizează stocurile instant după fiecare "vânzare".
+
+-Manechin Virtual: Folosește un sistem de sloturi pentru a simula vizual cum sunt distribuite hainele pe un client, mapând obiectele de inventar direct pe structura manechinului.
 
 ### Folosiți template-ul corespunzător grupei voastre!
 
