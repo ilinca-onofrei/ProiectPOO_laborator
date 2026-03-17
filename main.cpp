@@ -78,27 +78,28 @@ class Manechin {
 private:
     std::string numeManechin;
     std::string marimeManechin;
-    Haina* stratBaza;
-    Haina* stratExterior;
+    Haina *stratBaza;
+    Haina *stratExterior;
 
 public:
     Manechin(std::string nume_, std::string marime_)
-        : numeManechin{nume_}, marimeManechin{marime_}, stratBaza{nullptr}, stratExterior{nullptr} {}
+        : numeManechin{nume_}, marimeManechin{marime_}, stratBaza{nullptr}, stratExterior{nullptr} {
+    }
 
-    void incearcaHaina(Haina& h) {
+    void incearcaHaina(Haina &h) {
         if (h.getMarime() != marimeManechin) {
             std::cout << "Eroare: Haina " << h.getDenumire() << " este marimea " << h.getMarime()
-                      << ", dar manechinul este " << marimeManechin << "!\n";
+                    << ", dar manechinul este " << marimeManechin << "!\n";
             return;
         }
 
         if (h.getCategorie() == "Baza") {
             stratBaza = &h;
             std::cout << h.getDenumire() << " a fost pusa ca strat de baza.\n";
-        }
-        else if (h.getCategorie() == "Exterior") {
+        } else if (h.getCategorie() == "Exterior") {
             if (stratBaza == nullptr) {
-                std::cout << "Atentie: Nu poti pune " << h.getDenumire() << " (exterior) pe un manechin fara haine de baza!\n";
+                std::cout << "Atentie: Nu poti pune " << h.getDenumire() <<
+                        " (exterior) pe un manechin fara haine de baza!\n";
             } else {
                 stratExterior = &h;
                 std::cout << h.getDenumire() << " a fost pusa peste stratul de baza.\n";
@@ -143,7 +144,7 @@ public:
         : numeMagazin{nume_}, locatie{adr_}, vitrina{m_} {
     }
 
-    void adaugaHainaInStoc(const Haina& h) {
+    void adaugaHainaInStoc(const Haina &h) {
         inventar.push_back(h);
         std::cout << "Haina '" << h.getDenumire() << "' a fost adaugata in stoc.\n";
     }
@@ -153,7 +154,7 @@ public:
         if (inventar.empty()) {
             std::cout << "Stocul este gol!\n";
         } else {
-            for (const auto& h : inventar) {
+            for (const auto &h: inventar) {
                 std::cout << "- " << h << "\n";
             }
         }
@@ -164,10 +165,10 @@ public:
         std::cout << "\n*** Verificare Buget Clienta ***\n";
         if (buget >= pretTinuta) {
             std::cout << "Succes! Puteti cumpara tinuta. Restul dvs: "
-                      << buget - pretTinuta << " lei.\n";
+                    << buget - pretTinuta << " lei.\n";
         } else {
             std::cout << "Ne pare rau, mai aveti nevoie de "
-                      << pretTinuta-buget << " lei pentru aceasta tinuta.\n";
+                    << pretTinuta - buget << " lei pentru aceasta tinuta.\n";
         }
     }
 
