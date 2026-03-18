@@ -91,8 +91,8 @@ public:
           stratBaza{nullptr},
           stratExterior{nullptr},
           incaltaminte{nullptr},
-          accesoriu{nullptr}
-     {}
+          accesoriu{nullptr} {
+    }
 
     void incearcaHaina(Haina &h) {
         if (h.getMarime() != marimeManechin) {
@@ -102,16 +102,19 @@ public:
         if (h.getCategorie() == "Baza") {
             stratBaza = &h;
             std::cout << h.getDenumire() << " (Baza) echipata.\n";
-        }
-        else if (h.getCategorie() == "Exterior") {
+        } else if (h.getCategorie() == "Exterior") {
             if (stratBaza == nullptr) std::cout << "Eroare: Pune intai ceva pe dedesubt!\n";
-            else { stratExterior = &h; std::cout << h.getDenumire() << " (Exterior) echipat.\n"; }
-        }
-        else if (h.getCategorie() == "Incaltaminte") {
+            else {
+                stratExterior = &h;
+                std::cout << h.getDenumire() << " (Exterior) echipat.\n";
+            }
+        } else if (h.getCategorie() == "Incaltaminte") {
             if (stratBaza == nullptr) std::cout << "Eroare: Nu poti proba pantofi fara haine!\n";
-            else { incaltaminte = &h; std::cout << h.getDenumire() << " (Incaltaminte) echipata.\n"; }
-        }
-        else if (h.getCategorie() == "Accesoriu") {
+            else {
+                incaltaminte = &h;
+                std::cout << h.getDenumire() << " (Incaltaminte) echipata.\n";
+            }
+        } else if (h.getCategorie() == "Accesoriu") {
             accesoriu = &h;
             std::cout << h.getDenumire() << " (Accesoriu) adaugat.\n";
         }
@@ -134,7 +137,7 @@ public:
         std::cout << "Manechinul " << numeManechin << " a fost dezbracat complet.\n";
     }
 
-    friend std::ostream& operator<<(std::ostream& os, const Manechin& m) {
+    friend std::ostream &operator<<(std::ostream &os, const Manechin &m) {
         os << "Manechin: " << m.numeManechin << " (" << m.marimeManechin << ")\n";
         os << "  -> Strat Baza: " << (m.stratBaza ? m.stratBaza->getDenumire() : "GOL") << "\n";
         os << "  -> Strat Exterior: " << (m.stratExterior ? m.stratExterior->getDenumire() : "GOL") << "\n";
@@ -148,7 +151,7 @@ class Boutique {
 private:
     std::string numeMagazin;
     Adresa locatie;
-    Manechin& vitrina;
+    Manechin &vitrina;
     std::vector<Haina> inventar;
 
 public:
@@ -156,7 +159,7 @@ public:
         : numeMagazin{nume_}, locatie{adr_}, vitrina{m_} {
     }
 
-    Haina& getHainaDinInventar(int idx) {
+    Haina &getHainaDinInventar(int idx) {
         return inventar[idx];
     }
 
@@ -228,7 +231,7 @@ int main() {
         Haina{"Esarfa de Matase", "M", "Accesoriu", 75.0}
     };
 
-    for (const auto& h : stocDisponibil) {
+    for (const auto &h: stocDisponibil) {
         shop.adaugaHainaInStoc(h);
     }
 
@@ -248,24 +251,20 @@ int main() {
 
         if (optiune == 1) {
             std::cout << "\n" << shop << "\n";
-        }
-        else if (optiune == 2) {
+        } else if (optiune == 2) {
             shop.afiseazaStocComplet();
-        }
-        else if (optiune == 3) {
+        } else if (optiune == 3) {
             int idx;
-            std::cout << "Introdu indexul hainei dorite (0-" << stocDisponibil.size()-1 << "): ";
+            std::cout << "Introdu indexul hainei dorite (0-" << stocDisponibil.size() - 1 << "): ";
             std::cin >> idx;
-            if (idx >= 0 && (size_t)idx < stocDisponibil.size()) {
+            if (idx >= 0 && (size_t) idx < stocDisponibil.size()) {
                 man.incearcaHaina(shop.getHainaDinInventar(idx));
             } else {
                 std::cout << "!!! Index invalid. Te rugam sa alegi din lista depozitului.\n";
             }
-        }
-        else if (optiune == 4) {
+        } else if (optiune == 4) {
             man.dezbracaManechin();
-        }
-        else if (optiune == 5) {
+        } else if (optiune == 5) {
             double buget;
             std::cout << "Ce buget are clienta astazi? (lei): ";
             std::cin >> buget;
