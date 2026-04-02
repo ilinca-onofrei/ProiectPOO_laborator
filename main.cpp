@@ -76,6 +76,7 @@ public:
         os << h.denumire << " (" << h.marime << ") - " << h.pret << " lei";
         return os;
     }
+
     void adaugaRecenzie(int nota) {
         if (nota >= 1 && nota <= 5) {
             recenzii.push_back(nota);
@@ -86,7 +87,7 @@ public:
     double getMediaRecenziilor() const {
         if (recenzii.empty()) return 0.0;
         double suma = 0;
-        for (int r : recenzii) suma += r;
+        for (int r: recenzii) suma += r;
         return suma / recenzii.size();
     }
 };
@@ -217,7 +218,7 @@ public:
     void afiseazaHaineDupaCategorie(std::string catCautata) const {
         std::cout << "\n--- Rezultate cautare pentru categoria: " << catCautata << " ---\n";
         bool gasit = false;
-        for (const auto& h : inventar) {
+        for (const auto &h: inventar) {
             if (h.getCategorie() == catCautata) {
                 std::cout << "- " << h << " (Media review-uri: " << h.getMediaRecenziilor() << ")\n";
                 gasit = true;
@@ -304,12 +305,13 @@ int main() {
             std::cout << "Introdu categoria (Baza/Exterior/Incaltaminte/Accesoriu): ";
             std::cin >> cat;
             shop.afiseazaHaineDupaCategorie(cat);
-        }
-        else if (optiune == 7) {
+        } else if (optiune == 7) {
             int idx, nota;
-            std::cout << "Index haina: "; std::cin >> idx;
-            std::cout << "Nota (1-5): "; std::cin >> nota;
-            if (idx >= 0 && (size_t)idx < stocDisponibil.size()) {
+            std::cout << "Index haina: ";
+            std::cin >> idx;
+            std::cout << "Nota (1-5): ";
+            std::cin >> nota;
+            if (idx >= 0 && (size_t) idx < stocDisponibil.size()) {
                 shop.getHainaDinInventar(idx).adaugaRecenzie(nota);
             }
         }
