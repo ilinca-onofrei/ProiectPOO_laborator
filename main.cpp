@@ -31,6 +31,7 @@ private:
     std::string marime;
     std::string categorie;
     double pret;
+    std::vector<int> recenzii;
 
 public:
     Haina(std::string denumire_, std::string marime_, std::string categorie_, double pret_)
@@ -45,7 +46,7 @@ public:
 
     Haina(const Haina &other)
         : denumire{other.denumire}, marime{other.marime},
-          categorie{other.categorie}, pret{other.pret} {
+          categorie{other.categorie}, pret{other.pret}, recenzii{other.recenzii} {
         std::cout << "CC Haina: S a copiat " << denumire << "\n";
     }
 
@@ -54,6 +55,8 @@ public:
             denumire = other.denumire;
             marime = other.marime;
             pret = other.pret;
+            categorie = other.categorie;
+            recenzii = other.recenzii;
         }
         std::cout << "op=Haina: S a atribuit " << denumire << "\n";
         return *this; // AICI SE RETURNEAZA REFERINTA
@@ -72,6 +75,19 @@ public:
     friend std::ostream &operator<<(std::ostream &os, const Haina &h) {
         os << h.denumire << " (" << h.marime << ") - " << h.pret << " lei";
         return os;
+    }
+    void adaugaRecenzie(int nota) {
+        if (nota >= 1 && nota <= 5) {
+            recenzii.push_back(nota);
+            std::cout << "Recenzie de " << nota << " stele adaugata pentru " << denumire << ".\n";
+        }
+    }
+
+    double getMediaRecenziilor() const {
+        if (recenzii.empty()) return 0.0;
+        double suma = 0;
+        for (int r : recenzii) suma += r;
+        return suma / recenzii.size();
     }
 };
 
@@ -197,6 +213,18 @@ public:
         os << "In vitrina: " << b.vitrina << "\n";
         return os;
     }
+public:
+    void afiseazaHaineDupaCategorie(std::string catCautata) const {
+        std::cout << "\n--- Rezultate cautare pentru categoria: " << catCautata << " ---\n";
+        bool gasit = false;
+        for (const auto& h : inventar) {
+            if (h.getCategorie() == catCautata) {
+                std::cout << "- " << h << " (Media review-uri: " << h.getMediaRecenziilor() << ")\n";
+                gasit = true;
+            }
+        }
+        if (!gasit) std::cout << "Nu am gasit haine in aceasta categorie.\n";
+    }
 };
 
 int main() {
@@ -236,7 +264,7 @@ int main() {
     }
 
     int optiune = 0;
-    while (optiune != 6) {
+    while (optiune != 8) {
         std::cout << "\n==========================================";
         std::cout << "\n       GESTIUNE CHIC ATELIER ";
         std::cout << "\n==========================================\n";
@@ -245,7 +273,9 @@ int main() {
         std::cout << "3. Imbraca manechinul (Alege haina dupa index)\n";
         std::cout << "4. Dezbraca manechinul (Reset Outfit)\n";
         std::cout << "5. Verifica buget clienta (Calcul total)\n";
-        std::cout << "6. Iesire program\n";
+        std::cout << "6. Cauta haine dupa categorie (Filtru)\n";
+        std::cout << "7. Lasa o recenzie pentru o haina\n";
+        std::cout << "8. Iesire program\n";
         std::cout << "Alegerea ta: ";
         std::cin >> optiune;
 
@@ -269,6 +299,19 @@ int main() {
             std::cout << "Ce buget are clienta astazi? (lei): ";
             std::cin >> buget;
             shop.verificareDisponibilitateBuget(buget);
+        } else if (optiune == 6) {
+            std::string cat;
+            std::cout << "Introdu categoria (Baza/Exterior/Incaltaminte/Accesoriu): ";
+            std::cin >> cat;
+            shop.afiseazaHaineDupaCategorie(cat);
+        }
+        else if (optiune == 7) {
+            int idx, nota;
+            std::cout << "Index haina: "; std::cin >> idx;
+            std::cout << "Nota (1-5): "; std::cin >> nota;
+            if (idx >= 0 && (size_t)idx < stocDisponibil.size()) {
+                shop.getHainaDinInventar(idx).adaugaRecenzie(nota);
+            }
         }
     }
 
