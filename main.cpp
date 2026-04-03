@@ -3,8 +3,6 @@
 #include "include/Example.h"
 // This also works if you do not want `include/`, but some editors might not like it
 // #include "Example.h"
-#include <iostream>
-#include <array>
 #include <vector>
 #include <string>
 
@@ -32,10 +30,11 @@ private:
     std::string categorie;
     double pret;
     std::vector<int> recenzii;
+    int stocActual;
 
 public:
-    Haina(std::string denumire_, std::string marime_, std::string categorie_, double pret_)
-        : denumire{denumire_}, marime{marime_}, categorie{categorie_}, pret{pret_} {
+    Haina(std::string denumire_, std::string marime_, std::string categorie_, double pret_, int stoc_=3)
+        : denumire{denumire_}, marime{marime_}, categorie{categorie_}, pret{pret_}, stocActual{stoc_} {
         std::cout << "S a creat haina: " << denumire << "\n";
     }
 
@@ -46,7 +45,7 @@ public:
 
     Haina(const Haina &other)
         : denumire{other.denumire}, marime{other.marime},
-          categorie{other.categorie}, pret{other.pret}, recenzii{other.recenzii} {
+          categorie{other.categorie}, pret{other.pret}, recenzii{other.recenzii}, stocActual{other.stocActual} {
         std::cout << "CC Haina: S a copiat " << denumire << "\n";
     }
 
@@ -57,6 +56,7 @@ public:
             pret = other.pret;
             categorie = other.categorie;
             recenzii = other.recenzii;
+            stocActual = other.stocActual;
         }
         std::cout << "op=Haina: S a atribuit " << denumire << "\n";
         return *this; // AICI SE RETURNEAZA REFERINTA
@@ -90,6 +90,10 @@ public:
         for (int r: recenzii) suma += r;
         return suma / recenzii.size();
     }
+
+    int getStocActual() const { return stocActual; }
+
+    void scadeStoc() { if (stocActual > 0) stocActual--; }
 };
 
 class Manechin {
@@ -196,18 +200,6 @@ public:
         }
     }
 
-    void verificareDisponibilitateBuget(double buget) const {
-        double pretTinuta = vitrina.getValoareTinuta();
-        std::cout << "\n*** Verificare Buget Clienta ***\n";
-        if (buget >= pretTinuta) {
-            std::cout << "Succes! Puteti cumpara tinuta. Restul dvs: "
-                    << buget - pretTinuta << " lei.\n";
-        } else {
-            std::cout << "Ne pare rau, mai aveti nevoie de "
-                    << pretTinuta - buget << " lei pentru aceasta tinuta.\n";
-        }
-    }
-
     friend std::ostream &operator<<(std::ostream &os, const Boutique &b) {
         os << "***" << b.numeMagazin << "***\n";
         os << "Locatie: " << b.locatie << "\n";
@@ -234,21 +226,28 @@ private:
     double buget;
     int puncteLoialitate;
     std::vector<std::string> haineCumparate;
+
 public:
-    Clienta(std::string nume_, double buget_): nume{nume_}, buget{buget_}, puncteLoialitate{0} {}
+    Clienta(std::string nume_, double buget_) : nume{nume_}, buget{buget_}, puncteLoialitate{0} {
+    }
+
     bool poateCumpara(double total) const {
         return buget >= total;
     }
-    void finalizeazaAchizitie(double total, const Manechin& m) {
+
+    void finalizeazaAchizitie(double total, const Manechin &m) {
         buget -= total;
         puncteLoialitate += static_cast<int>(total / 10); // 1 punct la fiecare 10 lei
         haineCumparate.push_back("Outfit Complet");
-        std::cout << "Achizitie reusita! " << nume << " mai are " << buget << " lei si " << puncteLoialitate << " puncte.\n";
+        std::cout << "Achizitie reusita! " << nume << " mai are " << buget << " lei si " << puncteLoialitate <<
+                " puncte.\n";
     }
+
     double getBuget() const {
         return buget;
     }
-    friend std::ostream& operator<<(std::ostream& os, const Clienta& c) {
+
+    friend std::ostream &operator<<(std::ostream &os, const Clienta &c) {
         os << "Clienta: " << c.nume << " | Buget: " << c.buget << " lei | Puncte: " << c.puncteLoialitate;
         return os;
     }
@@ -262,7 +261,8 @@ private:
 
 public:
     Promotie(std::string cod, double reducere)
-        : numeCod{cod}, procentReducere{reducere}, esteActiva{true} {}
+        : numeCod{cod}, procentReducere{reducere}, esteActiva{true} {
+    }
 
     double aplicaReducere(double pretInitial) const {
         if (esteActiva) {
@@ -275,12 +275,13 @@ public:
         esteActiva = false;
     }
 
-    friend std::ostream& operator<<(std::ostream& os, const Promotie& p) {
+    friend std::ostream &operator<<(std::ostream &os, const Promotie &p) {
         os << "Cod Promotie: " << p.numeCod << " (-" << p.procentReducere << "%) "
-           << (p.esteActiva ? "[ACTIV]" : "[EXPIRAT]");
+                << (p.esteActiva ? "[ACTIV]" : "[EXPIRAT]");
         return os;
     }
 };
+
 int main() {
     Adresa adr{"Bucuresti", "Calea Victoriei", 101};
     Manechin man{"Anna", "M"};
@@ -320,7 +321,7 @@ int main() {
     }
 
     int optiune = 0;
-    while (optiune != 8) {
+    while (optiune != 9) {
         std::cout << "\n==========================================";
         std::cout << "\n       GESTIUNE CHIC ATELIER ";
         std::cout << "\n==========================================\n";
@@ -331,7 +332,8 @@ int main() {
         std::cout << "5. Verifica buget clienta (Calcul total)\n";
         std::cout << "6. Cauta haine dupa categorie (Filtru)\n";
         std::cout << "7. Lasa o recenzie pentru o haina\n";
-        std::cout << "8. Iesire program\n";
+        std::cout << "8. Aplica REDUCERI DE WEEKEND (Black Friday de Primavara!)\n";
+        std::cout << "9. Iesire program\n"; // MUTAT PE 9
         std::cout << "Alegerea ta: ";
         std::cin >> optiune;
 
@@ -344,9 +346,16 @@ int main() {
             std::cout << "Introdu indexul hainei dorite (0-" << stocDisponibil.size() - 1 << "): ";
             std::cin >> idx;
             if (idx >= 0 && (size_t) idx < stocDisponibil.size()) {
-                man.incearcaHaina(shop.getHainaDinInventar(idx));
+                Haina& hainaAleasa = shop.getHainaDinInventar(idx);
+                if (hainaAleasa.getStocActual() > 0) {
+                    man.incearcaHaina(hainaAleasa);
+                    hainaAleasa.scadeStoc();
+                    std::cout << "[INFO] Stoc ramas pentru acest model: " << hainaAleasa.getStocActual() << "\n";
+                } else {
+                    std::cout << "!!! EROARE: Stoc epuizat pentru '" << hainaAleasa.getDenumire() << "'.\n";
+                }
             } else {
-                std::cout << "!!! Index invalid. Te rugam sa alegi din lista depozitului.\n";
+                std::cout << "!!! Index invalid.\n";
             }
         } else if (optiune == 4) {
             man.dezbracaManechin();
@@ -383,6 +392,12 @@ int main() {
             if (idx >= 0 && (size_t) idx < stocDisponibil.size()) {
                 shop.getHainaDinInventar(idx).adaugaRecenzie(nota);
             }
+        } else if (optiune == 8) {
+            std::cout << "\n!!! BLACK FRIDAY: Se aplica o reducere de 20% la TOATE hainele din stoc !!!\n";
+            for (int i = 0; i < (int)stocDisponibil.size(); i++) {
+                shop.getHainaDinInventar(i).aplicaDiscount(20);
+            }
+            std::cout << "Preturile au fost actualizate cu succes!\n";
         }
     }
 
