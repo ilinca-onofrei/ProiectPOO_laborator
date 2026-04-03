@@ -228,10 +228,65 @@ public:
     }
 };
 
+class Clienta {
+private:
+    std::string nume;
+    double buget;
+    int puncteLoialitate;
+    std::vector<std::string> haineCumparate;
+public:
+    Clienta(std::string nume_, double buget_): nume{nume_}, buget{buget_}, puncteLoialitate{0} {}
+    bool poateCumpara(double total) const {
+        return buget >= total;
+    }
+    void finalizeazaAchizitie(double total, const Manechin& m) {
+        buget -= total;
+        puncteLoialitate += static_cast<int>(total / 10); // 1 punct la fiecare 10 lei
+        haineCumparate.push_back("Outfit Complet");
+        std::cout << "Achizitie reusita! " << nume << " mai are " << buget << " lei si " << puncteLoialitate << " puncte.\n";
+    }
+    double getBuget() const {
+        return buget;
+    }
+    friend std::ostream& operator<<(std::ostream& os, const Clienta& c) {
+        os << "Clienta: " << c.nume << " | Buget: " << c.buget << " lei | Puncte: " << c.puncteLoialitate;
+        return os;
+    }
+};
+
+class Promotie {
+private:
+    std::string numeCod;
+    double procentReducere;
+    bool esteActiva;
+
+public:
+    Promotie(std::string cod, double reducere)
+        : numeCod{cod}, procentReducere{reducere}, esteActiva{true} {}
+
+    double aplicaReducere(double pretInitial) const {
+        if (esteActiva) {
+            return pretInitial - (pretInitial * (procentReducere / 100.0));
+        }
+        return pretInitial;
+    }
+
+    void dezactiveaza() {
+        esteActiva = false;
+    }
+
+    friend std::ostream& operator<<(std::ostream& os, const Promotie& p) {
+        os << "Cod Promotie: " << p.numeCod << " (-" << p.procentReducere << "%) "
+           << (p.esteActiva ? "[ACTIV]" : "[EXPIRAT]");
+        return os;
+    }
+};
 int main() {
     Adresa adr{"Bucuresti", "Calea Victoriei", 101};
     Manechin man{"Anna", "M"};
     Boutique shop{"ChicAtelier", adr, man};
+    Clienta cl{"Ilinca", 2000.0};
+    Promotie promo10{"SPRING10", 10.0};
     std::vector<Haina> stocDisponibil = {
         // BAZA (Index 0-3)
         Haina{"Tricou Bumbac Basic", "M", "Baza", 60.0},
@@ -296,10 +351,24 @@ int main() {
         } else if (optiune == 4) {
             man.dezbracaManechin();
         } else if (optiune == 5) {
-            double buget;
-            std::cout << "Ce buget are clienta astazi? (lei): ";
-            std::cin >> buget;
-            shop.verificareDisponibilitateBuget(buget);
+            std::cout << "\n--- PROCESARE PLATA ---\n";
+            std::cout << cl << "\n"; // Afiseaza bugetul actual al Mariei
+            double pretTotal = man.getValoareTinuta();
+            std::string codIntrodus;
+            std::cout << "Introduceti codul promotional (sau 'SARI' pentru pret intreg): ";
+            std::cin >> codIntrodus;
+            double pretFinal = pretTotal;
+            if (codIntrodus == "SPRING10") {
+                pretFinal = promo10.aplicaReducere(pretTotal);
+                std::cout << "Cod aplicat cu succes! " << promo10 << "\n";
+            }
+            std::cout << "Total de plata: " << pretFinal << " lei\n";
+            if (cl.poateCumpara(pretFinal)) {
+                cl.finalizeazaAchizitie(pretFinal, man);
+                man.dezbracaManechin(); // Dupa ce cumpara, manechinul ramane gol pentru urmatoarea clienta
+            } else {
+                std::cout << "Eroare: Fonduri insuficiente! Mai aveti nevoie de " << pretFinal - cl.getBuget() << " lei.\n";
+            }
         } else if (optiune == 6) {
             std::string cat;
             std::cout << "Introdu categoria (Baza/Exterior/Incaltaminte/Accesoriu): ";
