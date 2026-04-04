@@ -39,10 +39,10 @@ public:
         std::cout << "S a creat haina: " << denumire << "\n";
     }
 
-    std::string& getCategorie() const { return categorie; }
-    std::string& getMarime() const { return marime; }
+    std::string &getCategorie() const { return categorie; }
+    std::string &getMarime() const { return marime; }
     double getPret() const { return pret; }
-    std::string& getDenumire() const { return denumire; }
+    std::string &getDenumire() const { return denumire; }
 
     Haina(const Haina &other)
         : denumire{other.denumire}, marime{other.marime},
@@ -251,7 +251,7 @@ public:
         return buget >= total;
     }
 
-    void finalizeazaAchizitie(double total, const Manechin& m) {
+    void finalizeazaAchizitie(double total, const Manechin &m) {
         (void) m;
         buget -= total;
         puncteLoialitate += static_cast<int>(total / 10); // 1 punct la fiecare 10 lei
