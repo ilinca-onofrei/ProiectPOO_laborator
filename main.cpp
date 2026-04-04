@@ -1,11 +1,11 @@
 #include <iostream>
 #include <array>
-#include "include/Example.h"
 // This also works if you do not want `include/`, but some editors might not like it
 // #include "Example.h"
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <iomanip>
 
 class Adresa {
 private:
@@ -219,13 +219,15 @@ public:
         }
         if (!gasit) std::cout << "Nu am gasit haine in aceasta categorie.\n";
     }
-    void recomandaAccesoriu(const Haina& hainaAleasa) const {
+
+    void recomandaAccesoriu(const Haina &hainaAleasa) const {
         std::cout << "\n[Smart-Matching] Deoarece ati ales " << hainaAleasa.getDenumire() << "...\n";
         bool gasit = false;
-        for (const auto& articol : inventar) {
+        for (const auto &articol: inventar) {
             // Logica: caut un accesoriu care sa nu coste mai mult de jumatate din pretul hainei
             if (articol.getCategorie() == "Accesoriu" && articol.getPret() < hainaAleasa.getPret() * 0.5) {
-                std::cout << " > Va recomandam si: " << articol.getDenumire() << " la doar " << articol.getPret() << " lei!\n";
+                std::cout << " > Va recomandam si: " << articol.getDenumire() << " la doar " << articol.getPret() <<
+                        " lei!\n";
                 gasit = true;
                 break; // Recomand doar primul gasit
             }
@@ -265,7 +267,8 @@ public:
         os << "Clienta: " << c.nume << " | Buget: " << c.buget << " lei | Puncte: " << c.puncteLoialitate;
         return os;
     }
-    void tiparesteBon(double total, const std::string& codPromo) {
+
+    void tiparesteBon(double total, const std::string &codPromo) {
         double tva = total * 0.19;
         double pretFaraTva = total - tva;
 
@@ -282,17 +285,18 @@ public:
         std::cout << "----------------------------------------------\n";
         std::cout << " Va multumim pentru vizita!\n\n";
     }
+
     std::string getNivelFidelitate() const {
         if (puncteLoialitate > 500) return "PLATINUM (Reducere 15%)";
         if (puncteLoialitate > 200) return "GOLD (Reducere 10%)";
-        if (puncteLoialitate > 50)  return "SILVER (Reducere 5%)";
+        if (puncteLoialitate > 50) return "SILVER (Reducere 5%)";
         return "STANDARD";
     }
 
     double aplicaReducereFidelitate(double suma) {
         if (puncteLoialitate > 500) return suma * 0.85;
         if (puncteLoialitate > 200) return suma * 0.90;
-        if (puncteLoialitate > 50)  return suma * 0.95;
+        if (puncteLoialitate > 50) return suma * 0.95;
         return suma;
     }
 };
@@ -325,6 +329,7 @@ public:
         return os;
     }
 };
+
 class IstoricVanzari {
 private:
     std::vector<double> sumeIncasate;
@@ -332,13 +337,16 @@ private:
     double venitTotal;
 
 public:
-    IstoricVanzari() : numarTotalVanzari{0}, venitTotal{0.0} {}
+    IstoricVanzari() : numarTotalVanzari{0}, venitTotal{0.0} {
+    }
+
     void inregistreazaTranzactie(double suma) {
         sumeIncasate.push_back(suma);
         venitTotal += suma;
         numarTotalVanzari++;
         std::cout << "[Sistem] Tranzactie de " << suma << " lei salvata in istoric.\n";
     }
+
     void afiseazaRaportComplet() const {
         std::cout << "\n==========================================";
         std::cout << "\n       RAPORT ACTIVITATE MAGAZIN ";
@@ -446,7 +454,8 @@ int main() {
                 // aplicam reducerea de fidelitate automat
                 double pretDupaFidelitate = cl.aplicaReducereFidelitate(pretInitial);
                 if (pretDupaFidelitate < pretInitial) {
-                    std::cout << "[Fidelitate] S-a aplicat reducerea de nivel! Pret nou: " << pretDupaFidelitate << " lei\n";
+                    std::cout << "[Fidelitate] S-a aplicat reducerea de nivel! Pret nou: " << pretDupaFidelitate <<
+                            " lei\n";
                 }
                 std::string codIntrodus;
                 std::cout << "Introduceti codul promotional (sau 'SARI'): ";
@@ -486,7 +495,7 @@ int main() {
                 shop.getHainaDinInventar(i).aplicaDiscount(20);
             }
             std::cout << "Preturile au fost actualizate cu succes!\n";
-        }else if (optiune == 9) {
+        } else if (optiune == 9) {
             registru.afiseazaRaportComplet();
         }
     }
