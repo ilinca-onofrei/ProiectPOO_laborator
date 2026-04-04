@@ -39,10 +39,10 @@ public:
         std::cout << "S a creat haina: " << denumire << "\n";
     }
 
-    std::string getCategorie() const { return categorie; }
-    std::string getMarime() const { return marime; }
+    std::string& getCategorie() const { return categorie; }
+    std::string& getMarime() const { return marime; }
     double getPret() const { return pret; }
-    std::string getDenumire() const { return denumire; }
+    std::string& getDenumire() const { return denumire; }
 
     Haina(const Haina &other)
         : denumire{other.denumire}, marime{other.marime},
@@ -208,7 +208,7 @@ public:
         return os;
     }
 public:
-    void afiseazaHaineDupaCategorie(std::string catCautata) const {
+    void afiseazaHaineDupaCategorie(std::string& catCautata) const {
         std::cout << "\n--- Rezultate cautare pentru categoria: " << catCautata << " ---\n";
         bool gasit = false;
         for (const auto &h: inventar) {
@@ -252,6 +252,7 @@ public:
     }
 
     void finalizeazaAchizitie(double total, const Manechin &m) {
+        (void)m;
         buget -= total;
         puncteLoialitate += static_cast<int>(total / 10); // 1 punct la fiecare 10 lei
         haineCumparate.push_back("Outfit Complet");
@@ -317,10 +318,6 @@ public:
             return pretInitial - (pretInitial * (procentReducere / 100.0));
         }
         return pretInitial;
-    }
-
-    void dezactiveaza() {
-        esteActiva = false;
     }
 
     friend std::ostream &operator<<(std::ostream &os, const Promotie &p) {
