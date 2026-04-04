@@ -208,7 +208,7 @@ public:
         return os;
     }
 public:
-    void afiseazaHaineDupaCategorie(std::string& catCautata) const {
+    void afiseazaHaineDupaCategorie(const std::string &catCautata) const {
         std::cout << "\n--- Rezultate cautare pentru categoria: " << catCautata << " ---\n";
         bool gasit = false;
         for (const auto &h: inventar) {
