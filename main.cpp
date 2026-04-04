@@ -1,10 +1,8 @@
 #include <iostream>
-#include <array>
 // This also works if you do not want `include/`, but some editors might not like it
 // #include "Example.h"
 #include <vector>
 #include <string>
-#include <algorithm>
 #include <iomanip>
 
 class Adresa {
@@ -14,7 +12,7 @@ private:
     int numar;
 
 public:
-    Adresa(std::string oras_, std::string strada_, int numar_)
+    Adresa(const std::string& oras_, const std::string& strada_, int numar_)
         : oras{oras_}, strada{strada_}, numar{numar_} {
     }
 
@@ -34,15 +32,15 @@ private:
     int stocActual;
 
 public:
-    Haina(std::string denumire_, std::string marime_, std::string categorie_, double pret_, int stoc_ = 3)
+    Haina(const std::string denumire_, const std::string marime_, const std::string categorie_, double pret_, int stoc_ = 3)
         : denumire{denumire_}, marime{marime_}, categorie{categorie_}, pret{pret_}, stocActual{stoc_} {
         std::cout << "S a creat haina: " << denumire << "\n";
     }
 
-    std::string &getCategorie() const { return categorie; }
-    std::string &getMarime() const { return marime; }
+    const std::string &getCategorie() const { return categorie; }
+    const std::string &getMarime() const { return marime; }
     double getPret() const { return pret; }
-    std::string &getDenumire() const { return denumire; }
+    const std::string &getDenumire() const { return denumire; }
 
     Haina(const Haina &other)
         : denumire{other.denumire}, marime{other.marime},
@@ -208,7 +206,7 @@ public:
         return os;
     }
 public:
-    void afiseazaHaineDupaCategorie(const std::string &catCautata) const {
+    void afiseazaHaineDupaCategorie(const std::string& catCautata) const {
         std::cout << "\n--- Rezultate cautare pentru categoria: " << catCautata << " ---\n";
         bool gasit = false;
         for (const auto &h: inventar) {
@@ -221,7 +219,7 @@ public:
     }
 
     void recomandaAccesoriu(const Haina &hainaAleasa) const {
-        std::cout << "\n[Smart-Matching] Deoarece ati ales " << hainaAleasa.getDenumire() << "...\n";
+        std::cout << "\n[Smart-Matching @ " << numeMagazin << "] Deoarece ati ales " << hainaAleasa.getDenumire() << "...\n";
         bool gasit = false;
         for (const auto &articol: inventar) {
             // Logica: caut un accesoriu care sa nu coste mai mult de jumatate din pretul hainei
@@ -244,7 +242,7 @@ private:
     std::vector<std::string> haineCumparate;
 
 public:
-    Clienta(std::string nume_, double buget_) : nume{nume_}, buget{buget_}, puncteLoialitate{0} {
+    Clienta(const std::string& nume_, double buget_) : nume{nume_}, buget{buget_}, puncteLoialitate{0} {
     }
 
     bool poateCumpara(double total) const {
@@ -263,16 +261,17 @@ public:
     double getBuget() const {
         return buget;
     }
+    const std::string& getNume() const { return nume; }
 
     friend std::ostream &operator<<(std::ostream &os, const Clienta &c) {
         os << "Clienta: " << c.nume << " | Buget: " << c.buget << " lei | Puncte: " << c.puncteLoialitate;
         return os;
     }
 
-    void tiparesteBon(double total, const std::string &codPromo) {
+    void tiparesteBon(double total, const std::string &codPromo) const {
         double tva = total * 0.19;
         double pretFaraTva = total - tva;
-
+        std::cout << " Client: " << nume << "\n"; // Folosește variabila clasei
         std::cout << "\n---------- BON FISCAL CHIC ATELIER ----------\n";
         std::cout << " Produs                  | Pret\n";
         std::cout << "----------------------------------------------\n";
@@ -294,7 +293,7 @@ public:
         return "STANDARD";
     }
 
-    double aplicaReducereFidelitate(double suma) {
+    double aplicaReducereFidelitate(double suma) const {
         if (puncteLoialitate > 500) return suma * 0.85;
         if (puncteLoialitate > 200) return suma * 0.90;
         if (puncteLoialitate > 50) return suma * 0.95;
@@ -425,7 +424,7 @@ int main() {
             int idx;
             std::cout << "Introdu indexul hainei dorite (0-" << stocDisponibil.size() - 1 << "): ";
             std::cin >> idx;
-            if (idx >= 0 && (size_t) idx < stocDisponibil.size()) {
+            if (idx >= 0 && static_cast<size_t>(idx) < stocDisponibil.size()) {
                 Haina &hainaAleasa = shop.getHainaDinInventar(idx);
                 if (hainaAleasa.getStocActual() > 0) {
                     man.incearcaHaina(hainaAleasa);
@@ -483,13 +482,13 @@ int main() {
             std::cin >> idx;
             std::cout << "Nota (1-5): ";
             std::cin >> nota;
-            if (idx >= 0 && (size_t) idx < stocDisponibil.size()) {
+            if (idx >= 0 && static_cast<size_t>(idx) < stocDisponibil.size()) {
                 shop.getHainaDinInventar(idx).adaugaRecenzie(nota);
             }
         } else if (optiune == 8) {
             std::cout << "\n!!! BLACK FRIDAY: Se aplica o reducere de 20% la TOATE hainele din stoc !!!\n";
-            for (int i = 0; i < (int) stocDisponibil.size(); i++) {
-                shop.getHainaDinInventar(i).aplicaDiscount(20);
+            for (size_t i = 0; i < stocDisponibil.size(); i++) {
+                shop.getHainaDinInventar(static_cast<int>(i)).aplicaDiscount(20);
             }
             std::cout << "Preturile au fost actualizate cu succes!\n";
         } else if (optiune == 9) {
