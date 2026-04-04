@@ -5,6 +5,7 @@
 // #include "Example.h"
 #include <vector>
 #include <string>
+#include <algorithm>
 
 class Adresa {
 private:
@@ -33,7 +34,7 @@ private:
     int stocActual;
 
 public:
-    Haina(std::string denumire_, std::string marime_, std::string categorie_, double pret_, int stoc_=3)
+    Haina(std::string denumire_, std::string marime_, std::string categorie_, double pret_, int stoc_ = 3)
         : denumire{denumire_}, marime{marime_}, categorie{categorie_}, pret{pret_}, stocActual{stoc_} {
         std::cout << "S a creat haina: " << denumire << "\n";
     }
@@ -218,6 +219,19 @@ public:
         }
         if (!gasit) std::cout << "Nu am gasit haine in aceasta categorie.\n";
     }
+    void recomandaAccesoriu(const Haina& hainaAleasa) const {
+        std::cout << "\n[Smart-Matching] Deoarece ati ales " << hainaAleasa.getDenumire() << "...\n";
+        bool gasit = false;
+        for (const auto& articol : inventar) {
+            // Logica: caut un accesoriu care sa nu coste mai mult de jumatate din pretul hainei
+            if (articol.getCategorie() == "Accesoriu" && articol.getPret() < hainaAleasa.getPret() * 0.5) {
+                std::cout << " > Va recomandam si: " << articol.getDenumire() << " la doar " << articol.getPret() << " lei!\n";
+                gasit = true;
+                break; // Recomand doar primul gasit
+            }
+        }
+        if (!gasit) std::cout << " > Momentan nu avem accesorii la reducere pentru acest articol.\n";
+    }
 };
 
 class Clienta {
@@ -251,6 +265,36 @@ public:
         os << "Clienta: " << c.nume << " | Buget: " << c.buget << " lei | Puncte: " << c.puncteLoialitate;
         return os;
     }
+    void tiparesteBon(double total, const std::string& codPromo) {
+        double tva = total * 0.19;
+        double pretFaraTva = total - tva;
+
+        std::cout << "\n---------- BON FISCAL CHIC ATELIER ----------\n";
+        std::cout << " Produs                  | Pret\n";
+        std::cout << "----------------------------------------------\n";
+        std::cout << " Subtotal (fara TVA):      " << pretFaraTva << " lei\n";
+        std::cout << " TVA (19%):                " << tva << " lei\n";
+        if (codPromo != "SARI") {
+            std::cout << " Discount aplicat:         " << codPromo << "\n";
+        }
+        std::cout << "----------------------------------------------\n";
+        std::cout << " TOTAL DE PLATA:           " << total << " lei\n";
+        std::cout << "----------------------------------------------\n";
+        std::cout << " Va multumim pentru vizita!\n\n";
+    }
+    std::string getNivelFidelitate() const {
+        if (puncteLoialitate > 500) return "PLATINUM (Reducere 15%)";
+        if (puncteLoialitate > 200) return "GOLD (Reducere 10%)";
+        if (puncteLoialitate > 50)  return "SILVER (Reducere 5%)";
+        return "STANDARD";
+    }
+
+    double aplicaReducereFidelitate(double suma) {
+        if (puncteLoialitate > 500) return suma * 0.85;
+        if (puncteLoialitate > 200) return suma * 0.90;
+        if (puncteLoialitate > 50)  return suma * 0.95;
+        return suma;
+    }
 };
 
 class Promotie {
@@ -281,6 +325,35 @@ public:
         return os;
     }
 };
+class IstoricVanzari {
+private:
+    std::vector<double> sumeIncasate;
+    int numarTotalVanzari;
+    double venitTotal;
+
+public:
+    IstoricVanzari() : numarTotalVanzari{0}, venitTotal{0.0} {}
+    void inregistreazaTranzactie(double suma) {
+        sumeIncasate.push_back(suma);
+        venitTotal += suma;
+        numarTotalVanzari++;
+        std::cout << "[Sistem] Tranzactie de " << suma << " lei salvata in istoric.\n";
+    }
+    void afiseazaRaportComplet() const {
+        std::cout << "\n==========================================";
+        std::cout << "\n       RAPORT ACTIVITATE MAGAZIN ";
+        std::cout << "\n==========================================\n";
+        std::cout << "Numar total de vanzari: " << numarTotalVanzari << "\n";
+        std::cout << "Venit total realizat: " << venitTotal << " lei\n";
+
+        if (numarTotalVanzari > 0) {
+            std::cout << "Media per clienta: " << venitTotal / numarTotalVanzari << " lei\n";
+        } else {
+            std::cout << "Nu s-au inregistrat vanzari astazi.\n";
+        }
+        std::cout << "==========================================\n";
+    }
+};
 
 int main() {
     Adresa adr{"Bucuresti", "Calea Victoriei", 101};
@@ -288,6 +361,7 @@ int main() {
     Boutique shop{"ChicAtelier", adr, man};
     Clienta cl{"Ilinca", 2000.0};
     Promotie promo10{"SPRING10", 10.0};
+    IstoricVanzari registru;
     std::vector<Haina> stocDisponibil = {
         // BAZA (Index 0-3)
         Haina{"Tricou Bumbac Basic", "M", "Baza", 60.0},
@@ -321,7 +395,7 @@ int main() {
     }
 
     int optiune = 0;
-    while (optiune != 9) {
+    while (optiune != 10) {
         std::cout << "\n==========================================";
         std::cout << "\n       GESTIUNE CHIC ATELIER ";
         std::cout << "\n==========================================\n";
@@ -329,11 +403,12 @@ int main() {
         std::cout << "2. Vezi tot inventarul depozitului\n";
         std::cout << "3. Imbraca manechinul (Alege haina dupa index)\n";
         std::cout << "4. Dezbraca manechinul (Reset Outfit)\n";
-        std::cout << "5. Verifica buget clienta (Calcul total)\n";
+        std::cout << "5. Procesare plata (Finalizare achizitie)\n";
         std::cout << "6. Cauta haine dupa categorie (Filtru)\n";
         std::cout << "7. Lasa o recenzie pentru o haina\n";
         std::cout << "8. Aplica REDUCERI DE WEEKEND (Black Friday de Primavara!)\n";
-        std::cout << "9. Iesire program\n"; // MUTAT PE 9
+        std::cout << "9. Vezi raport financiar (Istoric Vanzari)\n";
+        std::cout << "10. Iesire program\n";
         std::cout << "Alegerea ta: ";
         std::cin >> optiune;
 
@@ -346,10 +421,11 @@ int main() {
             std::cout << "Introdu indexul hainei dorite (0-" << stocDisponibil.size() - 1 << "): ";
             std::cin >> idx;
             if (idx >= 0 && (size_t) idx < stocDisponibil.size()) {
-                Haina& hainaAleasa = shop.getHainaDinInventar(idx);
+                Haina &hainaAleasa = shop.getHainaDinInventar(idx);
                 if (hainaAleasa.getStocActual() > 0) {
                     man.incearcaHaina(hainaAleasa);
                     hainaAleasa.scadeStoc();
+                    shop.recomandaAccesoriu(hainaAleasa);
                     std::cout << "[INFO] Stoc ramas pentru acest model: " << hainaAleasa.getStocActual() << "\n";
                 } else {
                     std::cout << "!!! EROARE: Stoc epuizat pentru '" << hainaAleasa.getDenumire() << "'.\n";
@@ -361,24 +437,36 @@ int main() {
             man.dezbracaManechin();
         } else if (optiune == 5) {
             std::cout << "\n--- PROCESARE PLATA ---\n";
-            std::cout << cl << "\n"; // Afiseaza bugetul actual al Mariei
-            double pretTotal = man.getValoareTinuta();
-            std::string codIntrodus;
-            std::cout << "Introduceti codul promotional (sau 'SARI' pentru pret intreg): ";
-            std::cin >> codIntrodus;
-            double pretFinal = pretTotal;
-            if (codIntrodus == "SPRING10") {
-                pretFinal = promo10.aplicaReducere(pretTotal);
-                std::cout << "Cod aplicat cu succes! " << promo10 << "\n";
-            }
-            std::cout << "Total de plata: " << pretFinal << " lei\n";
-            if (cl.poateCumpara(pretFinal)) {
-                cl.finalizeazaAchizitie(pretFinal, man);
-                man.dezbracaManechin(); // Dupa ce cumpara, manechinul ramane gol pentru urmatoarea clienta
+            std::cout << cl << "\n";
+            std::cout << "Nivel fidelitate actual: " << cl.getNivelFidelitate() << "\n";
+            double pretInitial = man.getValoareTinuta();
+            if (pretInitial == 0) {
+                std::cout << "Eroare: Manechinul nu are haine! Nimic de platit.\n";
             } else {
-                std::cout << "Eroare: Fonduri insuficiente! Mai aveti nevoie de " << pretFinal - cl.getBuget() << " lei.\n";
+                // aplicam reducerea de fidelitate automat
+                double pretDupaFidelitate = cl.aplicaReducereFidelitate(pretInitial);
+                if (pretDupaFidelitate < pretInitial) {
+                    std::cout << "[Fidelitate] S-a aplicat reducerea de nivel! Pret nou: " << pretDupaFidelitate << " lei\n";
+                }
+                std::string codIntrodus;
+                std::cout << "Introduceti codul promotional (sau 'SARI'): ";
+                std::cin >> codIntrodus;
+                double pretFinal = pretDupaFidelitate;
+                if (codIntrodus == "SPRING10") {
+                    pretFinal = promo10.aplicaReducere(pretDupaFidelitate);
+                    std::cout << "Cod aplicat cu succes! " << promo10 << "\n";
+                }
+                // Verificam bugetul si finalizam + afisam bonul fiscal
+                if (cl.poateCumpara(pretFinal)) {
+                    cl.finalizeazaAchizitie(pretFinal, man);
+                    registru.inregistreazaTranzactie(pretFinal);
+                    cl.tiparesteBon(pretFinal, codIntrodus);
+                    man.dezbracaManechin();
+                } else {
+                    std::cout << "Eroare: Fonduri insuficiente! Lipsesc: " << pretFinal - cl.getBuget() << " lei.\n";
+                }
             }
-        } else if (optiune == 6) {
+        }else if (optiune == 6) {
             std::string cat;
             std::cout << "Introdu categoria (Baza/Exterior/Incaltaminte/Accesoriu): ";
             std::cin >> cat;
@@ -394,13 +482,14 @@ int main() {
             }
         } else if (optiune == 8) {
             std::cout << "\n!!! BLACK FRIDAY: Se aplica o reducere de 20% la TOATE hainele din stoc !!!\n";
-            for (int i = 0; i < (int)stocDisponibil.size(); i++) {
+            for (int i = 0; i < (int) stocDisponibil.size(); i++) {
                 shop.getHainaDinInventar(i).aplicaDiscount(20);
             }
             std::cout << "Preturile au fost actualizate cu succes!\n";
+        }else if (optiune == 9) {
+            registru.afiseazaRaportComplet();
         }
     }
-
     std::cout << "\nSistemul ChicAtelier s-a inchis.\n";
     return 0;
 }
