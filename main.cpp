@@ -12,7 +12,7 @@ private:
     int numar;
 
 public:
-    Adresa(const std::string& oras_, const std::string& strada_, int numar_)
+    Adresa(const std::string &oras_, const std::string &strada_, int numar_)
         : oras{oras_}, strada{strada_}, numar{numar_} {
     }
 
@@ -32,7 +32,8 @@ private:
     int stocActual;
 
 public:
-    Haina(const std::string denumire_, const std::string marime_, const std::string categorie_, double pret_, int stoc_ = 3)
+    Haina(const std::string& denumire_, const std::string& marime_, const std::string& categorie_, double pret_,
+          int stoc_ = 3)
         : denumire{denumire_}, marime{marime_}, categorie{categorie_}, pret{pret_}, stocActual{stoc_} {
         std::cout << "S a creat haina: " << denumire << "\n";
     }
@@ -105,7 +106,7 @@ private:
     Haina *accesoriu;
 
 public:
-    Manechin(std::string nume_, std::string marime_)
+    Manechin(const std::string& nume_, const std::string& marime_)
         : numeManechin{nume_},
           marimeManechin{marime_},
           stratBaza{nullptr},
@@ -175,7 +176,7 @@ private:
     std::vector<Haina> inventar;
 
 public:
-    Boutique(std::string nume_, const Adresa& adr_, Manechin& m_)
+    Boutique(const std::string& nume_, const Adresa& adr_, Manechin& m_)
         : numeMagazin{nume_}, locatie{adr_}, vitrina{m_} {
     }
 
@@ -205,8 +206,9 @@ public:
         os << "In vitrina: " << b.vitrina << "\n";
         return os;
     }
+
 public:
-    void afiseazaHaineDupaCategorie(const std::string& catCautata) const {
+    void afiseazaHaineDupaCategorie(const std::string &catCautata) const {
         std::cout << "\n--- Rezultate cautare pentru categoria: " << catCautata << " ---\n";
         bool gasit = false;
         for (const auto &h: inventar) {
@@ -219,7 +221,8 @@ public:
     }
 
     void recomandaAccesoriu(const Haina &hainaAleasa) const {
-        std::cout << "\n[Smart-Matching @ " << numeMagazin << "] Deoarece ati ales " << hainaAleasa.getDenumire() << "...\n";
+        std::cout << "\n[Smart-Matching @ " << numeMagazin << "] Deoarece ati ales " << hainaAleasa.getDenumire() <<
+                "...\n";
         bool gasit = false;
         for (const auto &articol: inventar) {
             // Logica: caut un accesoriu care sa nu coste mai mult de jumatate din pretul hainei
@@ -261,14 +264,14 @@ public:
     double getBuget() const {
         return buget;
     }
-    const std::string& getNume() const { return nume; }
+
 
     friend std::ostream &operator<<(std::ostream &os, const Clienta &c) {
         os << "Clienta: " << c.nume << " | Buget: " << c.buget << " lei | Puncte: " << c.puncteLoialitate;
         return os;
     }
 
-    void tiparesteBon(double total, const std::string &codPromo) const {
+    void tiparesteBon(double total, const std::string& codPromo) const {
         double tva = total * 0.19;
         double pretFaraTva = total - tva;
         std::cout << " Client: " << nume << "\n"; // Folosește variabila clasei
@@ -308,7 +311,7 @@ private:
     bool esteActiva;
 
 public:
-    Promotie(std::string cod, double reducere)
+    Promotie(const std::string& cod, double reducere)
         : numeCod{cod}, procentReducere{reducere}, esteActiva{true} {
     }
 
