@@ -38,7 +38,8 @@ private:
 public:
     Haina(const std::string &denumire_, const std::string &marime_, const std::string &categorie_, double pret_,
           int stoc_ = 3)
-        :  id{++contorId}, denumire{denumire_}, marime{marime_}, categorie{categorie_}, pret{pret_}, stocActual{stoc_}, discountWeekendAplicat{false} {
+        : id{++contorId}, denumire{denumire_}, marime{marime_}, categorie{categorie_}, pret{pret_}, stocActual{stoc_},
+          discountWeekendAplicat{false} {
         std::cout << "S a creat haina: " << denumire << "\n";
     }
 
@@ -55,7 +56,7 @@ public:
 
     Haina &operator=(const Haina &other) {
         if (this != &other) {
-            id=other.id;
+            id = other.id;
             denumire = other.denumire;
             marime = other.marime;
             pret = other.pret;
@@ -82,8 +83,8 @@ public:
     }
 
     friend std::ostream &operator<<(std::ostream &os, const Haina &h) {
-        os << "[ID:" << h.id << "] " << h.denumire << " (" << h.marime << ") - "
-           << h.pret << " lei | STOC: " << h.stocActual; // Am adaugat stocul aici
+        os << "[ID:" << h.getId() << "] " << h.denumire << " (" << h.marime << ") - "
+           << h.pret << " lei | STOC: " << h.stocActual;
         return os;
     }
 
@@ -109,6 +110,7 @@ public:
         return static_cast<int>(recenzii.size());
     }
 };
+
 int Haina::contorId = 0;
 
 class Manechin {
@@ -182,10 +184,10 @@ public:
         return os;
     }
 
-    Haina* getStratBaza() const { return stratBaza; }
-    Haina* getStratExterior() const { return stratExterior; }
-    Haina* getIncaltaminte() const { return incaltaminte; }
-    Haina* getAccesoriu() const { return accesoriu; }
+    Haina *getStratBaza() const { return stratBaza; }
+    Haina *getStratExterior() const { return stratExterior; }
+    Haina *getIncaltaminte() const { return incaltaminte; }
+    Haina *getAccesoriu() const { return accesoriu; }
 };
 
 class Boutique {
@@ -234,8 +236,8 @@ public:
         for (const auto &h: inventar) {
             if (h.getCategorie() == catCautata) {
                 std::cout << "- " << h
-                          << " (Media: " << std::fixed << std::setprecision(1) << h.getMediaRecenziilor()
-                          << " stele din " << h.getNrRecenzii() << " recenzii)\n";
+                        << " (Media: " << std::fixed << std::setprecision(1) << h.getMediaRecenziilor()
+                        << " stele din " << h.getNrRecenzii() << " recenzii)\n";
                 gasit = true;
             }
         }
@@ -274,7 +276,7 @@ public:
         return buget >= total;
     }
 
-    void finalizeazaAchizitie(double total, const Manechin& m) {
+    void finalizeazaAchizitie(double total, const Manechin &m) {
         buget -= total;
         puncteLoialitate += static_cast<int>(total / 10); // 1 punct la fiecare 10 lei
         if (m.getStratBaza()) haineCumparate.push_back(*(m.getStratBaza()));
@@ -296,7 +298,7 @@ public:
     void tiparesteBon(double total, const std::string &codPromo) const {
         double tva = total * 0.19;
         double pretFaraTva = total - tva;
-        std::cout << " Client: " << nume << "\n"; // Folosește variabila clasei
+        std::cout << " Client: " << nume << "\n";
         std::cout << "\n---------- BON FISCAL CHIC ATELIER ----------\n";
         std::cout << " Produs                  | Pret\n";
         std::cout << "----------------------------------------------\n";
@@ -330,7 +332,7 @@ public:
         if (haineCumparate.empty()) {
             std::cout << "Inca nu ai cumparat nimic.\n";
         } else {
-            for (const auto& h : haineCumparate) {
+            for (const auto &h: haineCumparate) {
                 std::cout << " - " << h << "\n";
             }
         }
@@ -372,10 +374,9 @@ public:
     IstoricVanzari() : numarTotalVanzari{0}, venitTotal{0.0} {
     }
 
-    void inregistreazaTranzactie(double suma, const Manechin& m) {
+    void inregistreazaTranzactie(double suma, const Manechin &m) {
         venitTotal += suma;
         numarTotalVanzari++;
-
         // Salvam efectiv ce s-a vandut
         if (m.getStratBaza()) haineVandute.push_back(*(m.getStratBaza()));
         if (m.getStratExterior()) haineVandute.push_back(*(m.getStratExterior()));
@@ -402,7 +403,7 @@ public:
         if (haineVandute.empty()) {
             std::cout << "Niciun produs vandut inca.\n";
         } else {
-            for (const auto& h : haineVandute) {
+            for (const auto &h: haineVandute) {
                 std::cout << " - " << h << "\n";
             }
         }
@@ -428,7 +429,7 @@ int main() {
         Haina{"Sacou Office Negru", "M", "Exterior", 250.0},
         Haina{"Geaca de Piele Rock", "M", "Exterior", 400.0},
         Haina{"Palton de Lana", "M", "Exterior", 550.0},
-        Haina{"Cardigan Impletit", "S", "Exterior", 150.0}, // Test eroare marime
+        Haina{"Cardigan Impletit", "S", "Exterior", 150.0},
 
         // INCALTAMINTE (Index 8-12)
         Haina{"Adidasi Sport Albi", "M", "Incaltaminte", 320.0},
