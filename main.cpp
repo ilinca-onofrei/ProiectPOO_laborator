@@ -25,17 +25,20 @@ public:
 
 class Haina {
 private:
+    static int contorId;
+    int id;
     std::string denumire;
     std::string marime;
     std::string categorie;
     double pret;
     std::vector<int> recenzii;
     int stocActual;
+    bool discountWeekendAplicat = false;
 
 public:
     Haina(const std::string &denumire_, const std::string &marime_, const std::string &categorie_, double pret_,
           int stoc_ = 3)
-        : denumire{denumire_}, marime{marime_}, categorie{categorie_}, pret{pret_}, stocActual{stoc_} {
+        :  id{++contorId}, denumire{denumire_}, marime{marime_}, categorie{categorie_}, pret{pret_}, stocActual{stoc_}, discountWeekendAplicat{false} {
         std::cout << "S a creat haina: " << denumire << "\n";
     }
 
@@ -45,13 +48,14 @@ public:
     const std::string &getDenumire() const { return denumire; }
 
     Haina(const Haina &other)
-        : denumire{other.denumire}, marime{other.marime},
+        : id{other.id}, denumire{other.denumire}, marime{other.marime},
           categorie{other.categorie}, pret{other.pret}, recenzii{other.recenzii}, stocActual{other.stocActual} {
         std::cout << "CC Haina: S a copiat " << denumire << "\n";
     }
 
     Haina &operator=(const Haina &other) {
         if (this != &other) {
+            id=other.id;
             denumire = other.denumire;
             marime = other.marime;
             pret = other.pret;
@@ -63,18 +67,23 @@ public:
         return *this; // AICI SE RETURNEAZA REFERINTA
     }
 
+    int getId() const { return id; }
+
     ~Haina() {
         std::cout << "Destructorul Haina: " << denumire << " a fost distrus.\n";
     }
 
     void aplicaDiscount(double procent) {
+        if (discountWeekendAplicat) return;
         if (procent > 0 && procent <= 100) {
             pret -= pret * (procent / 100.0);
+            discountWeekendAplicat = true;
         }
     }
 
     friend std::ostream &operator<<(std::ostream &os, const Haina &h) {
-        os << h.denumire << " (" << h.marime << ") - " << h.pret << " lei";
+        os << "[ID:" << h.id << "] " << h.denumire << " (" << h.marime << ") - "
+           << h.pret << " lei | STOC: " << h.stocActual; // Am adaugat stocul aici
         return os;
     }
 
@@ -95,7 +104,12 @@ public:
     int getStocActual() const { return stocActual; }
 
     void scadeStoc() { if (stocActual > 0) stocActual--; }
+
+    int getNrRecenzii() const {
+        return static_cast<int>(recenzii.size());
+    }
 };
+int Haina::contorId = 0;
 
 class Manechin {
 private:
@@ -167,6 +181,11 @@ public:
         os << "  -> Accesoriu: " << (m.accesoriu ? m.accesoriu->getDenumire() : "GOL");
         return os;
     }
+
+    Haina* getStratBaza() const { return stratBaza; }
+    Haina* getStratExterior() const { return stratExterior; }
+    Haina* getIncaltaminte() const { return incaltaminte; }
+    Haina* getAccesoriu() const { return accesoriu; }
 };
 
 class Boutique {
@@ -214,7 +233,9 @@ public:
         bool gasit = false;
         for (const auto &h: inventar) {
             if (h.getCategorie() == catCautata) {
-                std::cout << "- " << h << " (Media review-uri: " << h.getMediaRecenziilor() << ")\n";
+                std::cout << "- " << h
+                          << " (Media: " << std::fixed << std::setprecision(1) << h.getMediaRecenziilor()
+                          << " stele din " << h.getNrRecenzii() << " recenzii)\n";
                 gasit = true;
             }
         }
@@ -243,7 +264,7 @@ private:
     std::string nume;
     double buget;
     int puncteLoialitate;
-    std::vector<std::string> haineCumparate;
+    std::vector<Haina> haineCumparate;
 
 public:
     Clienta(const std::string& nume_, double buget_) : nume{nume_}, buget{buget_}, puncteLoialitate{0} {
@@ -253,19 +274,19 @@ public:
         return buget >= total;
     }
 
-    void finalizeazaAchizitie(double total, const Manechin &m) {
-        (void) m;
+    void finalizeazaAchizitie(double total, const Manechin& m) {
         buget -= total;
         puncteLoialitate += static_cast<int>(total / 10); // 1 punct la fiecare 10 lei
-        haineCumparate.push_back("Outfit Complet");
-        std::cout << "Achizitie reusita! " << nume << " mai are " << buget << " lei si " << puncteLoialitate <<
-                " puncte.\n";
+        if (m.getStratBaza()) haineCumparate.push_back(*(m.getStratBaza()));
+        if (m.getStratExterior()) haineCumparate.push_back(*(m.getStratExterior()));
+        if (m.getIncaltaminte()) haineCumparate.push_back(*(m.getIncaltaminte()));
+        if (m.getAccesoriu()) haineCumparate.push_back(*(m.getAccesoriu()));
+        std::cout << "Achizitie reusita! " << nume << " are acum " << haineCumparate.size() << " piese in garderoba.\n";
     }
 
     double getBuget() const {
         return buget;
     }
-
 
     friend std::ostream &operator<<(std::ostream &os, const Clienta &c) {
         os << "Clienta: " << c.nume << " | Buget: " << c.buget << " lei | Puncte: " << c.puncteLoialitate;
@@ -303,6 +324,17 @@ public:
         if (puncteLoialitate > 50) return suma * 0.95;
         return suma;
     }
+
+    void afiseazaGarderoba() const {
+        std::cout << "\n--- Garderoba personala a lui " << nume << " ---\n";
+        if (haineCumparate.empty()) {
+            std::cout << "Inca nu ai cumparat nimic.\n";
+        } else {
+            for (const auto& h : haineCumparate) {
+                std::cout << " - " << h << "\n";
+            }
+        }
+    }
 };
 
 class Promotie {
@@ -332,7 +364,7 @@ public:
 
 class IstoricVanzari {
 private:
-    std::vector<double> sumeIncasate;
+    std::vector<Haina> haineVandute;
     int numarTotalVanzari;
     double venitTotal;
 
@@ -340,11 +372,16 @@ public:
     IstoricVanzari() : numarTotalVanzari{0}, venitTotal{0.0} {
     }
 
-    void inregistreazaTranzactie(double suma) {
-        sumeIncasate.push_back(suma);
+    void inregistreazaTranzactie(double suma, const Manechin& m) {
         venitTotal += suma;
         numarTotalVanzari++;
-        std::cout << "[Sistem] Tranzactie de " << suma << " lei salvata in istoric.\n";
+
+        // Salvam efectiv ce s-a vandut
+        if (m.getStratBaza()) haineVandute.push_back(*(m.getStratBaza()));
+        if (m.getStratExterior()) haineVandute.push_back(*(m.getStratExterior()));
+        if (m.getIncaltaminte()) haineVandute.push_back(*(m.getIncaltaminte()));
+        if (m.getAccesoriu()) haineVandute.push_back(*(m.getAccesoriu()));
+        std::cout << "[Sistem] Tranzactie salvata. Produse inregistrate in inventarul de vanzari.\n";
     }
 
     void afiseazaRaportComplet() const {
@@ -359,16 +396,21 @@ public:
         } else {
             std::cout << "Nu s-au inregistrat vanzari astazi.\n";
         }
+
+        std::cout << "------------------------------------------\n";
+        std::cout << "Produse vandute individual:\n";
+        if (haineVandute.empty()) {
+            std::cout << "Niciun produs vandut inca.\n";
+        } else {
+            for (const auto& h : haineVandute) {
+                std::cout << " - " << h << "\n";
+            }
+        }
         std::cout << "==========================================\n";
     }
 };
 
 int main() {
-    // mod prin care sa scap de testele (de 15 min +) de pe github
-    if (std::getenv("GITHUB_ACTIONS") != nullptr) {
-        std::cout << "Testare automata detectata. Programul se inchide pentru bife verzi.\n";
-        return 0;
-    }
     Adresa adr{"Bucuresti", "Calea Victoriei", 101};
     Manechin man{"Anna", "M"};
     Boutique shop{"ChicAtelier", adr, man};
@@ -406,9 +448,11 @@ int main() {
     for (const auto &h: stocDisponibil) {
         shop.adaugaHainaInStoc(h);
     }
-
+    man.incearcaHaina(shop.getHainaDinInventar(1));
+    man.incearcaHaina(shop.getHainaDinInventar(13));
+    man.incearcaHaina(shop.getHainaDinInventar(9));
     int optiune = 0;
-    while (optiune != 10) {
+    while (optiune != 11) {
         std::cout << "\n==========================================";
         std::cout << "\n       GESTIUNE CHIC ATELIER ";
         std::cout << "\n==========================================\n";
@@ -421,7 +465,8 @@ int main() {
         std::cout << "7. Lasa o recenzie pentru o haina\n";
         std::cout << "8. Aplica REDUCERI DE WEEKEND (Black Friday de Primavara!)\n";
         std::cout << "9. Vezi raport financiar (Istoric Vanzari)\n";
-        std::cout << "10. Iesire program\n";
+        std::cout << "10. Vezi garderoba mea (Haine cumparate)\n";
+        std::cout << "11. Iesire program\n";
         std::cout << "Alegerea ta: ";
         std::cin >> optiune;
 
@@ -473,7 +518,7 @@ int main() {
                 // Verificam bugetul si finalizam + afisam bonul fiscal
                 if (cl.poateCumpara(pretFinal)) {
                     cl.finalizeazaAchizitie(pretFinal, man);
-                    registru.inregistreazaTranzactie(pretFinal);
+                    registru.inregistreazaTranzactie(pretFinal, man);
                     cl.tiparesteBon(pretFinal, codIntrodus);
                     man.dezbracaManechin();
                 } else {
@@ -502,6 +547,8 @@ int main() {
             std::cout << "Preturile au fost actualizate cu succes!\n";
         } else if (optiune == 9) {
             registru.afiseazaRaportComplet();
+        } else if (optiune == 10) {
+            cl.afiseazaGarderoba();
         }
     }
     std::cout << "\nSistemul ChicAtelier s-a inchis.\n";
