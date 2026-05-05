@@ -83,6 +83,7 @@ int main() {
             std::cin >> idx;
             if (idx >= 0 && static_cast<size_t>(idx) < shop.getNrHaineInventar()) {
                 Haina &hainaAleasa = shop.getHainaDinInventar(idx);
+                std::cout <<"Se verifica haina cu ID-ul: " << hainaAleasa.getId() << "\n";
                 if (hainaAleasa.getStocActual() > 0) {
                     man.incearcaHaina(hainaAleasa);
                     hainaAleasa.scadeStoc();
