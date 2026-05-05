@@ -51,6 +51,20 @@ include(cmake/CopyHelper.cmake)
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
 add_executable(${MAIN_EXECUTABLE_NAME}
     main.cpp
+        src/Adresa.cpp
+        include/Adresa.h
+        src/Promotie.cpp
+        include/Promotie.h
+        src/Haina.cpp
+        include/Haina.h
+        src/Manechin.cpp
+        include/Manechin.h
+        src/Clienta.cpp
+        include/Clienta.h
+        src/IstoricVanzari.cpp
+        include/IstoricVanzari.h
+        src/Boutique.cpp
+        include/Boutique.h
 )
 target_sources(${MAIN_EXECUTABLE_NAME}
     PRIVATE
