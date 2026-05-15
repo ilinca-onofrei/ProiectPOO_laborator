@@ -1,10 +1,10 @@
 #include <iostream>
-// This also works if you do not want `include/`, but some editors might not like it
-// #include "Example.h"
 #include <vector>
 #include <string>
 #include <iomanip>
 #include <cstdlib>
+#include <memory>
+
 #include "include/Adresa.h"
 #include "include/Promotie.h"
 #include "include/Haina.h"
@@ -12,7 +12,6 @@
 #include "include/Boutique.h"
 #include "include/Clienta.h"
 #include "include/IstoricVanzari.h"
-#include <memory>
 #include "include/HainaEleganta.h"
 #include "include/HainaSport.h"
 #include "include/HainaCasual.h"
@@ -27,7 +26,7 @@ int main() {
     IstoricVanzari registru;
     std::vector<Haina *> stocInitial;
 
-    // CATEGORIA ELEGANTE (Fostele haine de baza elegante)
+    // CATEGORIA ELEGANTE
     stocInitial.push_back(new HainaEleganta("Rochie de Seara Velvet", "M", 450.0, "Catifea", "Gala"));
     stocInitial.push_back(new HainaEleganta("Costum Smoking Negru", "M", 800.0, "Lana Super 120s", "Nunta"));
     stocInitial.push_back(new HainaEleganta("Rochie Cocktail Dantela", "S", 320.0, "Dantela", "Party"));
@@ -57,19 +56,21 @@ int main() {
     stocInitial.push_back(new HainaCasual("Slapi de Plaja", "M", 45.0, "Vara", false));
     stocInitial.push_back(new HainaCasual("Ghete de Toamna", "M", 380.0, "Toamna", false));
 
-    // Accesorii (le am pus ca HainaCasual pentru simplitate)
+    // Accesorii
     stocInitial.push_back(new HainaCasual("Palarie Fedora", "M", 110.0, "Toamna", false));
     stocInitial.push_back(new HainaCasual("Ochelari de Soare RayBan", "M", 620.0, "Vara", false));
     stocInitial.push_back(new HainaCasual("Colier Argint cu Cristal", "M", 280.0, "All-Season", false));
     stocInitial.push_back(new HainaCasual("Geanta de Mana Piele", "M", 500.0, "All-Season", false));
     stocInitial.push_back(new HainaCasual("Esarfa de Matase", "M", 75.0, "Primavara", false));
 
-    for (auto h: stocInitial) {
+    for (const Haina* h : stocInitial) {
         shop.adaugaHainaInStoc(*h);
     }
+
     man.incearcaHaina(shop.getHainaDinInventar(1));
     man.incearcaHaina(shop.getHainaDinInventar(13));
     man.incearcaHaina(shop.getHainaDinInventar(9));
+
     int optiune = 0;
     while (optiune != 11) {
         std::cout << "\n==========================================";
@@ -121,11 +122,9 @@ int main() {
             if (pretInitial == 0) {
                 std::cout << "Eroare: Manechinul nu are haine! Nimic de platit.\n";
             } else {
-                // aplicam reducerea de fidelitate automat
                 double pretDupaFidelitate = cl.aplicaReducereFidelitate(pretInitial);
                 if (pretDupaFidelitate < pretInitial) {
-                    std::cout << "[Fidelitate] S-a aplicat reducerea de nivel! Pret nou: " << pretDupaFidelitate <<
-                            " lei\n";
+                    std::cout << "[Fidelitate] S-a aplicat reducerea de nivel! Pret nou: " << pretDupaFidelitate << " lei\n";
                 }
                 std::string codIntrodus;
                 std::cout << "Introduceti codul promotional (sau 'SARI'): ";
@@ -135,7 +134,6 @@ int main() {
                     pretFinal = promo10.aplicaReducere(pretDupaFidelitate);
                     std::cout << "Cod aplicat cu succes! " << promo10 << "\n";
                 }
-                // Verificam bugetul si finalizam + afisam bonul fiscal
                 if (cl.poateCumpara(pretFinal)) {
                     cl.finalizeazaAchizitie(pretFinal, man);
                     registru.inregistreazaTranzactie(pretFinal, man);
@@ -145,7 +143,7 @@ int main() {
                     std::cout << "Eroare: Fonduri insuficiente! Lipsesc: " << pretFinal - cl.getBuget() << " lei.\n";
                 }
             }
-        }else if (optiune == 6) {
+        } else if (optiune == 6) {
             std::string cat;
             std::cout << "Introdu categoria (Baza/Exterior/Incaltaminte/Accesoriu): ";
             std::cin >> cat;
@@ -173,10 +171,11 @@ int main() {
             cl.afiseazaGarderoba();
         }
     }
-    for (auto h: stocInitial) {
+    for (auto h : stocInitial) {
         delete h;
     }
     stocInitial.clear();
+
     std::cout << "\nSistemul ChicAtelier s-a inchis.\n";
     return 0;
 }

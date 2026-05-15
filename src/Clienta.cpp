@@ -68,7 +68,7 @@ void Clienta::afiseazaGarderoba() const {
     if (haineCumparate.empty()) {
         std::cout << "Inca nu ai cumparat nimic.\n";
     } else {
-        for (const auto &h: haineCumparate) {
+        for (const auto h: haineCumparate) {
             std::cout << " - " << *h << "\n";
         }
     }

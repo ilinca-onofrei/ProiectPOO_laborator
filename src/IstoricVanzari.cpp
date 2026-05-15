@@ -4,7 +4,7 @@ IstoricVanzari::IstoricVanzari() : numarTotalVanzari{0}, venitTotal{0.0} {
 }
 
 IstoricVanzari::~IstoricVanzari() {
-    for (auto h : haineVandute) {
+    for (auto h: haineVandute) {
         delete h;
     }
     haineVandute.clear();

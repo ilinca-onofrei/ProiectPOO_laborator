@@ -8,7 +8,7 @@
 
 class IstoricVanzari {
 private:
-    std::vector<Haina*> haineVandute;
+    std::vector<Haina *> haineVandute;
     int numarTotalVanzari;
     double venitTotal;
 

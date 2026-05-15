@@ -70,7 +70,7 @@ void Haina::scadeStoc() {
 }
 
 std::ostream &operator<<(std::ostream &os, const Haina &h) {
-    os << "[ID:" << h.getId() << "] " << h.getDenumire() << " (" << h.getMarime() << ") - "
-            << h.getPret() << " lei | STOC: " << h.getStocActual();
+    os << "[ID:" << h.getId() << "] " << h.getDenumire()
+            << " (Recenzii: " << h.getNrRecenzii() << ")"; // Adaugă asta
     return os;
 }
