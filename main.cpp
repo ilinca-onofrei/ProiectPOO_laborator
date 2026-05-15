@@ -63,7 +63,7 @@ int main() {
     stocInitial.push_back(new HainaCasual("Geanta de Mana Piele", "M", 500.0, "All-Season", false));
     stocInitial.push_back(new HainaCasual("Esarfa de Matase", "M", 75.0, "Primavara", false));
 
-    for (const Haina* h : stocInitial) {
+    for (const Haina *h: stocInitial) {
         shop.adaugaHainaInStoc(*h);
     }
 
@@ -124,7 +124,8 @@ int main() {
             } else {
                 double pretDupaFidelitate = cl.aplicaReducereFidelitate(pretInitial);
                 if (pretDupaFidelitate < pretInitial) {
-                    std::cout << "[Fidelitate] S-a aplicat reducerea de nivel! Pret nou: " << pretDupaFidelitate << " lei\n";
+                    std::cout << "[Fidelitate] S-a aplicat reducerea de nivel! Pret nou: " << pretDupaFidelitate <<
+                            " lei\n";
                 }
                 std::string codIntrodus;
                 std::cout << "Introduceti codul promotional (sau 'SARI'): ";
