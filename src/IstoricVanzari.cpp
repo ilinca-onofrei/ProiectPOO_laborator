@@ -38,7 +38,7 @@ void IstoricVanzari::afiseazaRaportComplet() const {
     if (haineVandute.empty()) {
         std::cout << "Niciun produs vandut inca.\n";
     } else {
-        for (const auto &h: haineVandute) {
+        for (const Haina* h: haineVandute) {
             std::cout << " - " << *h << "\n";
         }
     }
