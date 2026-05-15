@@ -24,11 +24,14 @@ public:
     Haina &operator=(const Haina &other);
 
     virtual ~Haina();
-    virtual Haina* clone() const = 0;
+
+    virtual Haina *clone() const = 0;
+
     void afiseazaDetaliiComplete() const {
         std::cout << "[ID:" << id << "] " << denumire << " (" << marime << ") - " << pret << " lei\n";
         afiseazaSpecific();
     }
+
     virtual void afiseazaSpecific() const = 0;
 
     const std::string &getCategorie() const;
