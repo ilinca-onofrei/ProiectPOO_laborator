@@ -25,7 +25,7 @@ int main() {
     Clienta cl{"Ilinca", 2000.0};
     Promotie promo10{"SPRING10", 10.0};
     IstoricVanzari registru;
-    std::vector<Haina*> stocInitial;
+    std::vector<Haina *> stocInitial;
 
     // CATEGORIA ELEGANTE (Fostele haine de baza elegante)
     stocInitial.push_back(new HainaEleganta("Rochie de Seara Velvet", "M", 450.0, "Catifea", "Gala"));
@@ -64,7 +64,7 @@ int main() {
     stocInitial.push_back(new HainaCasual("Geanta de Mana Piele", "M", 500.0, "All-Season", false));
     stocInitial.push_back(new HainaCasual("Esarfa de Matase", "M", 75.0, "Primavara", false));
 
-    for (auto h : stocInitial) {
+    for (auto h: stocInitial) {
         shop.adaugaHainaInStoc(*h);
     }
     man.incearcaHaina(shop.getHainaDinInventar(1));
@@ -173,7 +173,7 @@ int main() {
             cl.afiseazaGarderoba();
         }
     }
-    for (auto h : stocInitial) {
+    for (auto h: stocInitial) {
         delete h;
     }
     stocInitial.clear();

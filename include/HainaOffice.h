@@ -7,10 +7,11 @@ private:
     bool necesitaCuratareChimica;
     int gradFormalitate; // 1-10
 public:
-    HainaOffice(const std::string& denumire_, const std::string& marime_, double pret_,
-                 bool curatare_, int formalitate_);
+    HainaOffice(const std::string &denumire_, const std::string &marime_, double pret_,
+                bool curatare_, int formalitate_);
 
-    Haina* clone() const override { return new HainaOffice(*this); }
+    Haina *clone() const override { return new HainaOffice(*this); }
+
     void afiseazaSpecific() const override;
 };
 #endif

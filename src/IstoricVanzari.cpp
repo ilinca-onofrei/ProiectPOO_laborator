@@ -3,16 +3,20 @@
 IstoricVanzari::IstoricVanzari() : numarTotalVanzari{0}, venitTotal{0.0} {
 }
 
+IstoricVanzari::~IstoricVanzari() {
+    for (auto h : haineVandute) {
+        delete h;
+    }
+    haineVandute.clear();
+}
+
 void IstoricVanzari::inregistreazaTranzactie(double suma, const Manechin &m) {
     venitTotal += suma;
     numarTotalVanzari++;
-
-    // Salvăm efectiv copiile hainelor vândute pentru raport
-    if (m.getStratBaza()) haineVandute.push_back(*(m.getStratBaza()));
-    if (m.getStratExterior()) haineVandute.push_back(*(m.getStratExterior()));
-    if (m.getIncaltaminte()) haineVandute.push_back(*(m.getIncaltaminte()));
-    if (m.getAccesoriu()) haineVandute.push_back(*(m.getAccesoriu()));
-
+    if (m.getStratBaza()) haineVandute.push_back(m.getStratBaza()->clone());
+    if (m.getStratExterior()) haineVandute.push_back(m.getStratExterior()->clone());
+    if (m.getIncaltaminte()) haineVandute.push_back(m.getIncaltaminte()->clone());
+    if (m.getAccesoriu()) haineVandute.push_back(m.getAccesoriu()->clone());
     std::cout << "[Sistem] Tranzactie salvata. Produse inregistrate in inventarul de vanzari.\n";
 }
 
@@ -35,7 +39,7 @@ void IstoricVanzari::afiseazaRaportComplet() const {
         std::cout << "Niciun produs vandut inca.\n";
     } else {
         for (const auto &h: haineVandute) {
-            std::cout << " - " << h << "\n";
+            std::cout << " - " << *h << "\n";
         }
     }
     std::cout << "==========================================\n";

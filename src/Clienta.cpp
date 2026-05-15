@@ -4,18 +4,25 @@ Clienta::Clienta(const std::string &nume_, double buget_)
     : nume{nume_}, buget{buget_}, puncteLoialitate{0} {
 }
 
+Clienta::~Clienta() {
+    for (auto h: haineCumparate) {
+        delete h;
+    }
+    haineCumparate.clear();
+}
+
 bool Clienta::poateCumpara(double total) const {
     return buget >= total;
 }
 
 void Clienta::finalizeazaAchizitie(double total, const Manechin &m) {
     buget -= total;
-    puncteLoialitate += static_cast<int>(total / 10); // 1 punct la fiecare 10 lei
+    puncteLoialitate += static_cast<int>(total / 10);
 
-    if (m.getStratBaza()) haineCumparate.push_back(*(m.getStratBaza()));
-    if (m.getStratExterior()) haineCumparate.push_back(*(m.getStratExterior()));
-    if (m.getIncaltaminte()) haineCumparate.push_back(*(m.getIncaltaminte()));
-    if (m.getAccesoriu()) haineCumparate.push_back(*(m.getAccesoriu()));
+    if (m.getStratBaza()) haineCumparate.push_back(m.getStratBaza()->clone());
+    if (m.getStratExterior()) haineCumparate.push_back(m.getStratExterior()->clone());
+    if (m.getIncaltaminte()) haineCumparate.push_back(m.getIncaltaminte()->clone());
+    if (m.getAccesoriu()) haineCumparate.push_back(m.getAccesoriu()->clone());
 
     std::cout << "Achizitie reusita! " << nume << " are acum " << haineCumparate.size() << " piese in garderoba.\n";
 }
@@ -62,7 +69,7 @@ void Clienta::afiseazaGarderoba() const {
         std::cout << "Inca nu ai cumparat nimic.\n";
     } else {
         for (const auto &h: haineCumparate) {
-            std::cout << " - " << h << "\n";
+            std::cout << " - " << *h << "\n";
         }
     }
 }

@@ -12,10 +12,12 @@ private:
     std::string nume;
     double buget;
     int puncteLoialitate;
-    std::vector<Haina> haineCumparate;
+    std::vector<Haina *> haineCumparate;
 
 public:
     Clienta(const std::string &nume_, double buget_);
+
+    ~Clienta();
 
     bool poateCumpara(double total) const;
 

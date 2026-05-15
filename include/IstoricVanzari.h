@@ -8,12 +8,14 @@
 
 class IstoricVanzari {
 private:
-    std::vector<Haina> haineVandute;
+    std::vector<Haina*> haineVandute;
     int numarTotalVanzari;
     double venitTotal;
 
 public:
     IstoricVanzari();
+
+    ~IstoricVanzari();
 
     void inregistreazaTranzactie(double suma, const Manechin &m);
 
