@@ -6,7 +6,7 @@
 #include <iostream>
 
 class Haina {
-private:
+protected:
     static int contorId;
     int id;
     std::string denumire;
@@ -20,12 +20,16 @@ private:
 public:
     Haina(const std::string &denumire_, const std::string &marime_, const std::string &categorie_, double pret_,
           int stoc_ = 3);
-
     Haina(const Haina &other);
-
     Haina &operator=(const Haina &other);
 
-    ~Haina();
+    virtual ~Haina();
+    virtual Haina* clone() const = 0;
+    void afiseazaDetaliiComplete() const {
+        std::cout << "[ID:" << id << "] " << denumire << " (" << marime << ") - " << pret << " lei\n";
+        afiseazaSpecific();
+    }
+    virtual void afiseazaSpecific() const = 0;
 
     const std::string &getCategorie() const;
 

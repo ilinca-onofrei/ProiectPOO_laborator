@@ -71,6 +71,6 @@ void Haina::scadeStoc() {
 
 std::ostream &operator<<(std::ostream &os, const Haina &h) {
     os << "[ID:" << h.getId() << "] " << h.getDenumire() << " (" << h.getMarime() << ") - "
-       << h.getPret() << " lei | STOC: " << h.getStocActual();
+            << h.getPret() << " lei | STOC: " << h.getStocActual();
     return os;
 }

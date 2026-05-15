@@ -65,6 +65,14 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         include/IstoricVanzari.h
         src/Boutique.cpp
         include/Boutique.h
+        src/HainaEleganta.cpp
+        include/HainaEleganta.h
+        src/HainaSport.cpp
+        include/HainaSport.h
+        src/HainaOffice.cpp
+        include/HainaOffice.h
+        src/HainaCasual.cpp
+        include/HainaCasual.h
 )
 target_sources(${MAIN_EXECUTABLE_NAME}
     PRIVATE

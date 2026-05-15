@@ -5,18 +5,24 @@ Boutique::Boutique(const std::string &nume_, const Adresa &adr_, Manechin &m_)
     : numeMagazin{nume_}, locatie{adr_}, vitrina{m_} {
 }
 
+Boutique::~Boutique() {
+    for (auto h : inventar) {
+        delete h;
+    }
+    inventar.clear();
+}
+
 Haina &Boutique::getHainaDinInventar(int idx) {
     if (idx < 0 || static_cast<size_t>(idx) >= inventar.size()) {
-        std::cerr << "Eroare: Index " << idx << " in afara limitelor inventarului!\n";
-        // Returnam primul element ca masura de siguranta in caz de eroare critica
-        return inventar[0];
+        std::cerr << "Eroare: Index " << idx << " invalid!\n";
+        return *(inventar[0]);
     }
-    return inventar[idx];
+    return *(inventar[idx]);
 }
 
 void Boutique::adaugaHainaInStoc(const Haina &h) {
-    inventar.push_back(h);
-    std::cout << "Haina '" << h.getDenumire() << "' a fost adaugata in stoc.\n";
+    inventar.push_back(h.clone());
+    std::cout << "Haina '" << h.getDenumire() << "' a fost adaugata polimorfic.\n";
 }
 
 void Boutique::afiseazaStocComplet() const {
@@ -24,8 +30,9 @@ void Boutique::afiseazaStocComplet() const {
     if (inventar.empty()) {
         std::cout << "Stocul este gol!\n";
     } else {
-        for (const auto &h: inventar) {
-            std::cout << "- " << h << "\n";
+        for (size_t i = 0; i < inventar.size(); ++i) {
+            std::cout << i << ". ";
+            inventar[i]->afiseazaDetaliiComplete();
         }
     }
 }
@@ -33,11 +40,11 @@ void Boutique::afiseazaStocComplet() const {
 void Boutique::afiseazaHaineDupaCategorie(const std::string &catCautata) const {
     std::cout << "\n--- Rezultate cautare pentru categoria: " << catCautata << " ---\n";
     bool gasit = false;
-    for (const auto &h: inventar) {
-        if (h.getCategorie() == catCautata) {
-            std::cout << "- " << h
-                    << " (Media: " << std::fixed << std::setprecision(1) << h.getMediaRecenziilor()
-                    << " stele din " << h.getNrRecenzii() << " recenzii)\n";
+    for (const auto &h : inventar) {
+        if (h->getCategorie() == catCautata) {
+            std::cout << "- " << *h
+                      << " (Media: " << std::fixed << std::setprecision(1) << h->getMediaRecenziilor()
+                      << " stele)\n";
             gasit = true;
         }
     }
@@ -45,19 +52,16 @@ void Boutique::afiseazaHaineDupaCategorie(const std::string &catCautata) const {
 }
 
 void Boutique::recomandaAccesoriu(const Haina &hainaAleasa) const {
-    std::cout << "\n[Smart-Matching @ " << numeMagazin << "] Deoarece ati ales " << hainaAleasa.getDenumire() <<
-            "...\n";
+    std::cout << "\n[Smart-Matching] Pentru " << hainaAleasa.getDenumire() << " recomandam:\n";
     bool gasit = false;
-    for (const auto &articol: inventar) {
-        // Logica: accesoriu sub jumatate din pretul hainei alese
-        if (articol.getCategorie() == "Accesoriu" && articol.getPret() < hainaAleasa.getPret() * 0.5) {
-            std::cout << " > Va recomandam si: " << articol.getDenumire() << " la doar " << articol.getPret() <<
-                    " lei!\n";
+    for (const auto &articol : inventar) {
+        if (articol->getCategorie() == "Accesoriu" && articol->getPret() < hainaAleasa.getPret() * 0.5) {
+            std::cout << " > " << articol->getDenumire() << " la doar " << articol->getPret() << " lei!\n";
             gasit = true;
             break;
         }
     }
-    if (!gasit) std::cout << " > Momentan nu avem accesorii la reducere pentru acest articol.\n";
+    if (!gasit) std::cout << " > Nicio recomandare momentan.\n";
 }
 
 size_t Boutique::getNrHaineInventar() const {

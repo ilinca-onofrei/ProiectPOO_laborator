@@ -12,6 +12,11 @@
 #include "include/Boutique.h"
 #include "include/Clienta.h"
 #include "include/IstoricVanzari.h"
+#include <memory>
+#include "include/HainaEleganta.h"
+#include "include/HainaSport.h"
+#include "include/HainaCasual.h"
+#include "include/HainaOffice.h"
 
 int main() {
     Adresa adr{"Bucuresti", "Calea Victoriei", 101};
@@ -20,36 +25,47 @@ int main() {
     Clienta cl{"Ilinca", 2000.0};
     Promotie promo10{"SPRING10", 10.0};
     IstoricVanzari registru;
-    std::vector<Haina> stocDisponibil = {
-        // BAZA (Index 0-3)
-        Haina{"Tricou Bumbac Basic", "M", "Baza", 60.0},
-        Haina{"Rochie Eleganta de Seara", "M", "Baza", 350.0},
-        Haina{"Camasa Oxford Alba", "M", "Baza", 120.0},
-        Haina{"Blugi Slim Fit", "M", "Baza", 180.0},
+    std::vector<Haina*> stocInitial;
 
-        // EXTERIOR (Index 4-7)
-        Haina{"Sacou Office Negru", "M", "Exterior", 250.0},
-        Haina{"Geaca de Piele Rock", "M", "Exterior", 400.0},
-        Haina{"Palton de Lana", "M", "Exterior", 550.0},
-        Haina{"Cardigan Impletit", "S", "Exterior", 150.0},
+    // CATEGORIA ELEGANTE (Fostele haine de baza elegante)
+    stocInitial.push_back(new HainaEleganta("Rochie de Seara Velvet", "M", 450.0, "Catifea", "Gala"));
+    stocInitial.push_back(new HainaEleganta("Costum Smoking Negru", "M", 800.0, "Lana Super 120s", "Nunta"));
+    stocInitial.push_back(new HainaEleganta("Rochie Cocktail Dantela", "S", 320.0, "Dantela", "Party"));
+    stocInitial.push_back(new HainaEleganta("Rochie Eleganta de Seara", "M", 350.0, "Saten", "Receptie"));
 
-        // INCALTAMINTE (Index 8-12)
-        Haina{"Adidasi Sport Albi", "M", "Incaltaminte", 320.0},
-        Haina{"Pantofi Stiletto Rosii", "M", "Incaltaminte", 450.0},
-        Haina{"Balerini Casual", "M", "Incaltaminte", 130.0},
-        Haina{"Slapi de Plaja", "M", "Incaltaminte", 45.0},
-        Haina{"Ghete de Toamna", "M", "Incaltaminte", 380.0},
+    // CATEGORIA SPORT
+    stocInitial.push_back(new HainaSport("Tricou Compresie Pro", "M", 120.0, "Running", 5));
+    stocInitial.push_back(new HainaSport("Pantaloni Yoga Flex", "S", 180.0, "Yoga", 2));
+    stocInitial.push_back(new HainaSport("Adidasi Sport Albi", "M", 320.0, "Multisport", 4));
+    stocInitial.push_back(new HainaSport("Tricou Bumbac Basic", "M", 60.0, "Antrenament usor", 1));
 
-        // ACCESORII (Index 13-17)
-        Haina{"Palarie Fedora", "M", "Accesoriu", 110.0},
-        Haina{"Ochelari de Soare RayBan", "M", "Accesoriu", 620.0},
-        Haina{"Colier Argint cu Cristal", "M", "Accesoriu", 280.0},
-        Haina{"Geanta de Mana Piele", "M", "Accesoriu", 500.0},
-        Haina{"Esarfa de Matase", "M", "Accesoriu", 75.0}
-    };
+    // CATEGORIA OFFICE
+    stocInitial.push_back(new HainaOffice("Camasa Oxford Alba", "M", 120.0, false, 7));
+    stocInitial.push_back(new HainaOffice("Sacou Office Negru", "M", 250.0, true, 9));
+    stocInitial.push_back(new HainaOffice("Pantalon Stofa Gri", "L", 220.0, true, 7));
+    stocInitial.push_back(new HainaOffice("Sacou Office Ajustat", "M", 350.0, true, 10));
 
-    for (const auto &h: stocDisponibil) {
-        shop.adaugaHainaInStoc(h);
+    // CATEGORIA CASUAL
+    stocInitial.push_back(new HainaCasual("Blugi Slim Fit", "M", 180.0, "All-Season", false));
+    stocInitial.push_back(new HainaCasual("Geaca de Piele Rock", "M", 400.0, "Toamna", false));
+    stocInitial.push_back(new HainaCasual("Palton de Lana", "M", 550.0, "Iarna", false));
+    stocInitial.push_back(new HainaCasual("Cardigan Impletit", "S", 150.0, "Primavara", false));
+
+    // Incaltaminte
+    stocInitial.push_back(new HainaCasual("Pantofi Stiletto Rosii", "M", 450.0, "Seara", false));
+    stocInitial.push_back(new HainaCasual("Balerini Casual", "M", 130.0, "Vara", false));
+    stocInitial.push_back(new HainaCasual("Slapi de Plaja", "M", 45.0, "Vara", false));
+    stocInitial.push_back(new HainaCasual("Ghete de Toamna", "M", 380.0, "Toamna", false));
+
+    // Accesorii (le am pus ca HainaCasual pentru simplitate)
+    stocInitial.push_back(new HainaCasual("Palarie Fedora", "M", 110.0, "Toamna", false));
+    stocInitial.push_back(new HainaCasual("Ochelari de Soare RayBan", "M", 620.0, "Vara", false));
+    stocInitial.push_back(new HainaCasual("Colier Argint cu Cristal", "M", 280.0, "All-Season", false));
+    stocInitial.push_back(new HainaCasual("Geanta de Mana Piele", "M", 500.0, "All-Season", false));
+    stocInitial.push_back(new HainaCasual("Esarfa de Matase", "M", 75.0, "Primavara", false));
+
+    for (auto h : stocInitial) {
+        shop.adaugaHainaInStoc(*h);
     }
     man.incearcaHaina(shop.getHainaDinInventar(1));
     man.incearcaHaina(shop.getHainaDinInventar(13));
@@ -79,11 +95,11 @@ int main() {
             shop.afiseazaStocComplet();
         } else if (optiune == 3) {
             int idx;
-            std::cout << "Introdu indexul hainei dorite (0-" << stocDisponibil.size() - 1 << "): ";
+            std::cout << "Introdu indexul hainei dorite (0-" << shop.getNrHaineInventar() - 1 << "): ";
             std::cin >> idx;
             if (idx >= 0 && static_cast<size_t>(idx) < shop.getNrHaineInventar()) {
                 Haina &hainaAleasa = shop.getHainaDinInventar(idx);
-                std::cout <<"Se verifica haina cu ID-ul: " << hainaAleasa.getId() << "\n";
+                std::cout << "Se verifica haina cu ID-ul: " << hainaAleasa.getId() << "\n";
                 if (hainaAleasa.getStocActual() > 0) {
                     man.incearcaHaina(hainaAleasa);
                     hainaAleasa.scadeStoc();
@@ -157,6 +173,10 @@ int main() {
             cl.afiseazaGarderoba();
         }
     }
+    for (auto h : stocInitial) {
+        delete h;
+    }
+    stocInitial.clear();
     std::cout << "\nSistemul ChicAtelier s-a inchis.\n";
     return 0;
 }

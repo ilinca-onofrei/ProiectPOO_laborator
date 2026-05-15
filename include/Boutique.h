@@ -13,11 +13,11 @@ private:
     std::string numeMagazin;
     Adresa locatie;
     Manechin &vitrina;
-    std::vector<Haina> inventar;
+    std::vector<Haina*> inventar;
 
 public:
     Boutique(const std::string &nume_, const Adresa &adr_, Manechin &m_);
-
+    ~Boutique();
     Haina &getHainaDinInventar(int idx);
 
     void adaugaHainaInStoc(const Haina &h);
