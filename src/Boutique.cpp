@@ -173,19 +173,18 @@ void Boutique::afiseazaCategoriaDominanta() const {
             << " (" << maxVal << " articole)\n";
 }
 
-Boutique::Boutique(const Boutique& other)
+Boutique::Boutique(const Boutique &other)
     : numeMagazin(other.numeMagazin),
       locatie(other.locatie),
-      vitrina(other.vitrina)
-{
+      vitrina(other.vitrina) {
     std::cout << "[COPY CONSTRUCTOR Boutique]\n";
 
-    for (const Haina* h : other.inventar) {
+    for (const Haina *h: other.inventar) {
         inventar.push_back(h->clone());
     }
 }
 
-void swap(Boutique& a, Boutique& b) noexcept {
+void swap(Boutique &a, Boutique &b) noexcept {
     using std::swap;
 
     swap(a.numeMagazin, b.numeMagazin);
@@ -194,7 +193,7 @@ void swap(Boutique& a, Boutique& b) noexcept {
     swap(a.inventar, b.inventar);
 }
 
-Boutique& Boutique::operator=(Boutique other) {
+Boutique &Boutique::operator=(Boutique other) {
     std::cout << "[OPERATOR= Boutique]\n";
 
     swap(*this, other);

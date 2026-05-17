@@ -32,31 +32,47 @@ int main() {
     stocInitial.push_back(new HainaEleganta("Rochie de Seara Velvet", "M", 450.0, "Catifea", "Gala"));
     stocInitial.push_back(new HainaEleganta("Costum Smoking Negru", "M", 800.0, "Lana Super 120s", "Nunta"));
     stocInitial.push_back(new HainaEleganta("Rochie Cocktail Dantela", "S", 320.0, "Dantela", "Party"));
-    stocInitial.push_back(new HainaEleganta("Rochie Eleganta de Seara", "M", 350.0, "Saten", "Receptie"));
+    stocInitial.push_back(new HainaEleganta("Rochie Eleganta de Matase", "M", 350.0, "Saten", "Receptie"));
+    stocInitial.push_back(new HainaEleganta("Rochie Satin Rosu", "S", 380.0, "Saten", "Gala"));
+    stocInitial.push_back(new HainaEleganta("Salopeta Lunga Catifea", "L", 500.0, "Matase", "Bal"));
+    stocInitial.push_back(new HainaEleganta("Costum Elegant Alb", "M", 700.0, "In", "Eveniment"));
+
 
     // CATEGORIA SPORT
     stocInitial.push_back(new HainaSport("Tricou Compresie Pro", "M", 120.0, "Running", 5));
     stocInitial.push_back(new HainaSport("Pantaloni Yoga Flex", "S", 180.0, "Yoga", 2));
     stocInitial.push_back(new HainaSport("Adidasi Sport Albi", "M", 320.0, "Multisport", 4));
     stocInitial.push_back(new HainaSport("Tricou Bumbac Basic", "M", 60.0, "Antrenament usor", 1));
+    stocInitial.push_back(new HainaSport("Hanorac Sport Training", "L", 200.0, "Fitness", 3));
+    stocInitial.push_back(new HainaSport("Colanti Sport Pro", "S", 150.0, "Fitness", 4));
+    stocInitial.push_back(new HainaSport("Geaca Sport Outdoor", "M", 300.0, "Drumetii", 5));
 
     // CATEGORIA OFFICE
     stocInitial.push_back(new HainaOffice("Camasa Oxford Alba", "M", 120.0, false, 7));
     stocInitial.push_back(new HainaOffice("Sacou Office Negru", "M", 250.0, true, 9));
     stocInitial.push_back(new HainaOffice("Pantalon Stofa Gri", "L", 220.0, true, 7));
     stocInitial.push_back(new HainaOffice("Sacou Office Ajustat", "M", 350.0, true, 10));
+    stocInitial.push_back(new HainaOffice("Fusta Office Neagra", "S", 180.0, true, 6));
+    stocInitial.push_back(new HainaOffice("Camasa Business Albastra", "M", 160.0, false, 8));
+    stocInitial.push_back(new HainaOffice("Sacou Eleganta Office", "L", 400.0, true, 10));
 
     // CATEGORIA CASUAL
     stocInitial.push_back(new HainaCasual("Blugi Slim Fit", "M", 180.0, "All-Season", false));
     stocInitial.push_back(new HainaCasual("Geaca de Piele Rock", "M", 400.0, "Toamna", false));
     stocInitial.push_back(new HainaCasual("Palton de Lana", "M", 550.0, "Iarna", false));
     stocInitial.push_back(new HainaCasual("Cardigan Impletit", "S", 150.0, "Primavara", false));
+    stocInitial.push_back(new HainaCasual("Tricou Oversized", "M", 90.0, "Vara", false));
+    stocInitial.push_back(new HainaCasual("Hanorac Casual Urban", "L", 220.0, "Toamna", false));
+    stocInitial.push_back(new HainaCasual("Blugi Relaxed Fit", "M", 200.0, "All-Season", false));
 
     // Incaltaminte
-    stocInitial.push_back(new HainaCasual("Pantofi Stiletto Rosii", "M", 450.0, "Seara", false));
-    stocInitial.push_back(new HainaCasual("Balerini Casual", "M", 130.0, "Vara", false));
-    stocInitial.push_back(new HainaCasual("Slapi de Plaja", "M", 45.0, "Vara", false));
-    stocInitial.push_back(new HainaCasual("Ghete de Toamna", "M", 380.0, "Toamna", false));
+    stocInitial.push_back(new HainaCasual("Pantofi Stiletto Rosii", "39", 450.0, "Seara", false));
+    stocInitial.push_back(new HainaCasual("Balerini Casual", "38", 130.0, "Vara", false));
+    stocInitial.push_back(new HainaCasual("Slapi de Plaja", "37", 45.0, "Vara", false));
+    stocInitial.push_back(new HainaCasual("Ghete de Toamna", "39", 380.0, "Toamna", false));
+    stocInitial.push_back(new HainaCasual("Sneakers Casual Alb", "38", 220.0, "All-Season", false));
+    stocInitial.push_back(new HainaCasual("Pantofi Eleganti Negri", "37", 300.0, "Office", false));
+    stocInitial.push_back(new HainaCasual("Cizme Iarna Imblanite", "40", 450.0, "Iarna", false));
 
     // Accesorii
     stocInitial.push_back(new HainaCasual("Palarie Fedora", "M", 110.0, "Toamna", false));
@@ -64,12 +80,21 @@ int main() {
     stocInitial.push_back(new HainaCasual("Colier Argint cu Cristal", "M", 280.0, "All-Season", false));
     stocInitial.push_back(new HainaCasual("Geanta de Mana Piele", "M", 500.0, "All-Season", false));
     stocInitial.push_back(new HainaCasual("Esarfa de Matase", "M", 75.0, "Primavara", false));
+    stocInitial.push_back(new HainaCasual("Ceas Elegant Silver", "M", 600.0, "All-Season", false));
+    stocInitial.push_back(new HainaCasual("Bratara Minimalista", "M", 120.0, "All-Season", false));
+    stocInitial.push_back(new HainaCasual("Rucsac Urban Stylish", "M", 350.0, "All-Season", false));
+    stocInitial.push_back(new HainaCasual("Curea Piele Premium", "M", 200.0, "All-Season", false));
+    stocInitial.push_back(new HainaCasual("Portofel Slim Modern", "M", 180.0, "All-Season", false));
+
 
     // LUXURY
-    stocInitial.push_back(new HainaLuxury("Rochie Haute Couture", "M", 2500.0, 2, 10));
+    stocInitial.push_back(new HainaLuxury("Rochie Haute Couture", "S", 2500.0, 2, 10));
     stocInitial.push_back(new HainaLuxury("Geanta Designer Premium", "M", 3200.0, 1, 9));
-    stocInitial.push_back(new HainaLuxury("Pantofi Luxury Cristale", "M", 1800.0, 3, 8));
+    stocInitial.push_back(new HainaLuxury("Pantofi Luxury Cristale", "37", 1800.0, 3, 8));
     stocInitial.push_back(new HainaLuxury("Palton Luxury Limited Edition", "L", 4000.0, 1, 10));
+    stocInitial.push_back(new HainaLuxury("Costum Luxury Royal", "XS", 5000.0, 1, 10));
+    stocInitial.push_back(new HainaLuxury("Pantofi Luxury Handmade", "39", 2700.0, 2, 9));
+    stocInitial.push_back(new HainaLuxury("Geaca Luxury Blana Naturala", "S", 6000.0, 1, 10));
 
     for (const Haina *h: stocInitial) {
         shop.adaugaHainaInStoc(*h);
@@ -192,14 +217,13 @@ int main() {
                 std::cout << "\n Produse Luxury: \n";
 
                 for (size_t i = 0; i < shop.getNrHaineInventar(); i++) {
-                    Haina &h = shop.getHainaDinInventar(i);
+                    const Haina &h = shop.getHainaDinInventar(i);
 
                     if (h.getCategorie() == "Luxury") {
                         h.afiseazaDetaliiComplete();
                     }
                 }
             }
-
         } catch (const std::exception &e) {
             std::cout << "!!! EROARE: " << e.what() << "\n";
         }
