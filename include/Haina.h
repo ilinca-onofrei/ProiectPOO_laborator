@@ -16,6 +16,7 @@ protected:
     std::vector<int> recenzii;
     int stocActual;
     bool discountWeekendAplicat;
+    static int nrHaine;
 
 public:
     Haina(const std::string &denumire_, const std::string &marime_, const std::string &categorie_, double pret_,
@@ -60,6 +61,8 @@ public:
     void scadeStoc();
 
     friend std::ostream &operator<<(std::ostream &os, const Haina &h);
+
+    static int getNrHaine();
 };
 
 #endif

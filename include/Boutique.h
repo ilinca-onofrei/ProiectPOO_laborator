@@ -43,6 +43,15 @@ public:
     void afiseazaCategoriaDominanta() const;
 
     friend std::ostream &operator<<(std::ostream &os, const Boutique &b);
+
+    // COPY CONSTRUCTOR
+    Boutique(const Boutique& other);
+
+    // OPERATOR (copy & swap)
+    Boutique& operator=(Boutique other);
+
+    // functie helper pentru swap
+    friend void swap(Boutique& a, Boutique& b) noexcept;
 };
 
 #endif

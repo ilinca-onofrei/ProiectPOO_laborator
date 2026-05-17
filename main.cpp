@@ -17,6 +17,7 @@
 #include "include/HainaCasual.h"
 #include "include/HainaOffice.h"
 #include "include/Exceptii.h"
+#include "include/HainaLuxury.h"
 
 int main() {
     Adresa adr{"Bucuresti", "Calea Victoriei", 101};
@@ -64,6 +65,12 @@ int main() {
     stocInitial.push_back(new HainaCasual("Geanta de Mana Piele", "M", 500.0, "All-Season", false));
     stocInitial.push_back(new HainaCasual("Esarfa de Matase", "M", 75.0, "Primavara", false));
 
+    // LUXURY
+    stocInitial.push_back(new HainaLuxury("Rochie Haute Couture", "M", 2500.0, 2, 10));
+    stocInitial.push_back(new HainaLuxury("Geanta Designer Premium", "M", 3200.0, 1, 9));
+    stocInitial.push_back(new HainaLuxury("Pantofi Luxury Cristale", "M", 1800.0, 3, 8));
+    stocInitial.push_back(new HainaLuxury("Palton Luxury Limited Edition", "L", 4000.0, 1, 10));
+
     for (const Haina *h: stocInitial) {
         shop.adaugaHainaInStoc(*h);
     }
@@ -73,8 +80,9 @@ int main() {
     man.incearcaHaina(shop.getHainaDinInventar(9));
     std::cout << " Buget client: " << cl.getBuget() << "\n";
     std::cout << " Nivel fidelitate: " << cl.getNivelFidelitate() << "\n";
+    std::cout << "Numar total haine create: " << Haina::getNrHaine() << "\n";
     int optiune = 0;
-    while (optiune != 16) {
+    while (optiune != 17) {
         try {
             std::cout << "\n==========================================";
             std::cout << "\n       GESTIUNE CHIC ATELIER ";
@@ -94,7 +102,8 @@ int main() {
             std::cout << "13. Sortare dupa pret\n";
             std::cout << "14. Pret mediu\n";
             std::cout << "15. Categoria dominanta\n";
-            std::cout << "16. Exit\n";
+            std::cout << "16. Afiseaza produse luxury\n";
+            std::cout << "17. Exit\n";
 
             if (!(std::cin >> optiune)) break;
 
@@ -142,7 +151,7 @@ int main() {
                 man.dezbracaManechin();
             } else if (optiune == 6) {
                 std::string cat;
-                if (!(std::cin >> cat)) break;
+                if (!(std::cin >> cat)) throw ExceptieInput();;
                 shop.afiseazaHaineDupaCategorie(cat);
             } else if (optiune == 7) {
                 int idx, nota;
@@ -179,7 +188,18 @@ int main() {
                         << " lei\n";
             } else if (optiune == 15) {
                 shop.afiseazaCategoriaDominanta();
+            } else if (optiune == 16) {
+                std::cout << "\n Produse Luxury: \n";
+
+                for (size_t i = 0; i < shop.getNrHaineInventar(); i++) {
+                    Haina &h = shop.getHainaDinInventar(i);
+
+                    if (h.getCategorie() == "Luxury") {
+                        h.afiseazaDetaliiComplete();
+                    }
+                }
             }
+
         } catch (const std::exception &e) {
             std::cout << "!!! EROARE: " << e.what() << "\n";
         }
@@ -188,6 +208,12 @@ int main() {
 
     for (auto h: stocInitial)
         delete h;
+
+    std::cout << "\n TESTARE COPY \n";
+    Boutique shopCopy = shop; // copy constructor
+    Boutique shopAssign{"Temp", adr, man};
+    shopAssign = shop; // operator=
+    std::cout << "Copiere realizata cu succes!\n";
 
     return 0;
 }

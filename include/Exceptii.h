@@ -24,4 +24,18 @@ public:
     }
 };
 
+class ExceptieReducere : public std::exception {
+public:
+    const char *what() const noexcept override {
+        return "Procent de reducere invalid!";
+    }
+};
+
+class ExceptieInput : public std::exception {
+public:
+    const char *what() const noexcept override {
+        return "Input invalid!";
+    }
+};
+
 #endif
