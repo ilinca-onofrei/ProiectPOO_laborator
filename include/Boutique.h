@@ -36,6 +36,12 @@ public:
 
     void afiseazaHaineSubPret(double pretMaxim) const;
 
+    void afiseazaHaineSortateDupaPret() const;
+
+    double calculeazaPretMediu() const;
+
+    void afiseazaCategoriaDominanta() const;
+
     friend std::ostream &operator<<(std::ostream &os, const Boutique &b);
 };
 

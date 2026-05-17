@@ -1,5 +1,7 @@
 #include "../include/Boutique.h"
 #include <iomanip>
+#include <algorithm>
+#include <map>
 #include "../include/HainaEleganta.h"
 #include "../include/HainaSport.h"
 #include "../include/HainaOffice.h"
@@ -44,7 +46,7 @@ void Boutique::afiseazaStocComplet() const {
 void Boutique::afiseazaHaineDupaCategorie(const std::string &catCautata) const {
     std::cout << "\n--- Rezultate cautare pentru categoria: " << catCautata << " ---\n";
     bool gasit = false;
-    for (const auto h: inventar) {
+    for (const Haina* h : inventar) {
         if (h->getCategorie() == catCautata) {
             std::cout << "- " << *h
                     << " (Media: " << std::fixed << std::setprecision(1) << h->getMediaRecenziilor()
@@ -59,7 +61,7 @@ void Boutique::afiseazaHaineDupaCategorie(const std::string &catCautata) const {
 void Boutique::recomandaAccesoriu(const Haina &hainaAleasa) const {
     std::cout << "\n[Smart-Matching] Pentru " << hainaAleasa.getDenumire() << " recomandam:\n";
     bool gasit = false;
-    for (const auto articol: inventar) {
+    for (const Haina* articol : inventar) {
         if (articol->getCategorie() == "Accesoriu" &&
             articol->getPret() < hainaAleasa.getPret() * 0.5) {
             std::cout << " > " << articol->getDenumire()
@@ -94,8 +96,8 @@ void Boutique::afiseazaCeaMaiBunaHaina() const {
         std::cout << "Nu exista haine in inventar.\n";
         return;
     }
-    const Haina* best = inventar[0];
-    for (const auto& h : inventar) {
+    const Haina *best = inventar[0];
+    for (const Haina* h : inventar) {
         if (h->getMediaRecenziilor() > best->getMediaRecenziilor()) {
             best = h;
         }
@@ -103,8 +105,8 @@ void Boutique::afiseazaCeaMaiBunaHaina() const {
     std::cout << "\n[TOP HAINA]\n";
     std::cout << "Cea mai apreciata haina este:\n";
     std::cout << *best << " cu rating: "
-              << std::fixed << std::setprecision(1)
-              << best->getMediaRecenziilor() << "\n";
+            << std::fixed << std::setprecision(1)
+            << best->getMediaRecenziilor() << "\n";
 }
 
 void Boutique::afiseazaHaineSubPret(double pretMaxim) const {
@@ -112,10 +114,10 @@ void Boutique::afiseazaHaineSubPret(double pretMaxim) const {
 
     std::cout << "\n[Haine sub " << pretMaxim << " lei]\n";
 
-    for (const auto& h : inventar) {
+    for (const Haina* h : inventar) {
         if (h->getPret() <= pretMaxim) {
             std::cout << *h
-                      << " - " << h->getPret() << " lei\n";
+                    << " - " << h->getPret() << " lei\n";
             gasit = true;
         }
     }
@@ -123,6 +125,52 @@ void Boutique::afiseazaHaineSubPret(double pretMaxim) const {
     if (!gasit) {
         std::cout << "Nu exista haine in acest interval de pret.\n";
     }
+}
+
+
+void Boutique::afiseazaHaineSortateDupaPret() const {
+    std::vector<const Haina*> copie;
+
+    for (const auto& h : inventar)
+        copie.push_back(h);
+
+    std::sort(copie.begin(), copie.end(), [](const Haina* a, const Haina* b) {
+        return a->getPret() < b->getPret();
+    });
+
+    std::cout << "\n[Haine sortate dupa pret]\n";
+    for (const auto& h : copie) {
+        std::cout << *h << " - " << h->getPret() << " lei\n";
+    }
+}
+
+double Boutique::calculeazaPretMediu() const {
+    if (inventar.empty()) return 0;
+
+    double suma = 0;
+
+    for (const auto& h : inventar)
+        suma += h->getPret();
+
+    return suma / inventar.size();
+}
+
+void Boutique::afiseazaCategoriaDominanta() const {
+    std::map<std::string, int> frecventa;
+
+    for (const auto& h : inventar) {
+        frecventa[h->getCategorie()]++;
+    }
+    std::string best;
+    int maxVal = 0;
+    for (const auto& p : frecventa) {
+        if (p.second > maxVal) {
+            maxVal = p.second;
+            best = p.first;
+        }
+    }
+    std::cout << "Categoria dominanta: " << best
+              << " (" << maxVal << " articole)\n";
 }
 
 std::ostream &operator<<(std::ostream &os, const Boutique &b) {
