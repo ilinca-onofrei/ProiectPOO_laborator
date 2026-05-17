@@ -172,11 +172,10 @@ int main() {
                 shop.afiseazaHaineSubPret(pret);
             } else if (optiune == 13) {
                 shop.afiseazaHaineSortateDupaPret();
-            }
-            else if (optiune == 14) {
+            } else if (optiune == 14) {
                 std::cout << "Pret mediu: "
-                          << shop.calculeazaPretMediu()
-                          << " lei\n";
+                        << shop.calculeazaPretMediu()
+                        << " lei\n";
             }
         } catch (const std::exception &e) {
             std::cout << "!!! EROARE: " << e.what() << "\n";
