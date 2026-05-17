@@ -32,6 +32,10 @@ public:
 
     size_t getNrHaineInventar() const;
 
+    void afiseazaCeaMaiBunaHaina() const;
+
+    void afiseazaHaineSubPret(double pretMaxim) const;
+
     friend std::ostream &operator<<(std::ostream &os, const Boutique &b);
 };
 

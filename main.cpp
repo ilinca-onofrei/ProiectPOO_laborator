@@ -74,7 +74,7 @@ int main() {
     std::cout << " Buget client: " << cl.getBuget() << "\n";
     std::cout << " Nivel fidelitate: " << cl.getNivelFidelitate() << "\n";
     int optiune = 0;
-    while (optiune != 11) {
+    while (optiune != 13) {
         try {
             std::cout << "\n==========================================";
             std::cout << "\n       GESTIUNE CHIC ATELIER ";
@@ -89,7 +89,9 @@ int main() {
             std::cout << "8. Reduceri\n";
             std::cout << "9. Raport\n";
             std::cout << "10. Garderoba\n";
-            std::cout << "11. Exit\n";
+            std::cout << "11. Top haina (cel mai bun rating)\n";
+            std::cout << "12. Filtru dupa pret\n";
+            std::cout << "13. Exit\n";
 
             if (!(std::cin >> optiune)) break;
 
@@ -158,7 +160,19 @@ int main() {
             } else if (optiune == 10) {
                 cl.afiseazaGarderoba();
             }
-        } catch (const std::exception &e) {
+            else if (optiune == 11) {
+                shop.afiseazaCeaMaiBunaHaina();
+            }
+            else if (optiune == 12) {
+                double pret;
+                std::cout << "Introdu pret maxim: ";
+
+                if (!(std::cin >> pret)) break;
+
+                shop.afiseazaHaineSubPret(pret);
+            }
+        }
+        catch (const std::exception &e) {
             std::cout << "!!! EROARE: " << e.what() << "\n";
         }
         if (!std::cin) break;

@@ -89,6 +89,42 @@ size_t Boutique::getNrHaineInventar() const {
     return inventar.size();
 }
 
+void Boutique::afiseazaCeaMaiBunaHaina() const {
+    if (inventar.empty()) {
+        std::cout << "Nu exista haine in inventar.\n";
+        return;
+    }
+    const Haina* best = inventar[0];
+    for (const auto& h : inventar) {
+        if (h->getMediaRecenziilor() > best->getMediaRecenziilor()) {
+            best = h;
+        }
+    }
+    std::cout << "\n[TOP HAINA]\n";
+    std::cout << "Cea mai apreciata haina este:\n";
+    std::cout << *best << " cu rating: "
+              << std::fixed << std::setprecision(1)
+              << best->getMediaRecenziilor() << "\n";
+}
+
+void Boutique::afiseazaHaineSubPret(double pretMaxim) const {
+    bool gasit = false;
+
+    std::cout << "\n[Haine sub " << pretMaxim << " lei]\n";
+
+    for (const auto& h : inventar) {
+        if (h->getPret() <= pretMaxim) {
+            std::cout << *h
+                      << " - " << h->getPret() << " lei\n";
+            gasit = true;
+        }
+    }
+
+    if (!gasit) {
+        std::cout << "Nu exista haine in acest interval de pret.\n";
+    }
+}
+
 std::ostream &operator<<(std::ostream &os, const Boutique &b) {
     os << "***" << b.numeMagazin << "***\n";
     os << "Locatie: " << b.locatie << "\n";
