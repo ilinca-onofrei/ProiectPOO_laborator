@@ -13,5 +13,6 @@ public:
     Haina *clone() const override { return new HainaOffice(*this); }
 
     void afiseazaSpecific() const override;
+    double calculeazaScorStil() const override;
 };
 #endif

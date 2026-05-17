@@ -6,6 +6,10 @@ HainaCasual::HainaCasual(const std::string &denumire_, const std::string &marime
       sezon{sezon_}, areGluga{gluga_} {
 }
 
+double HainaCasual::calculeazaScorStil() const {
+    return areGluga ? 20 : 10;
+}
+
 void HainaCasual::afiseazaSpecific() const {
     std::cout << " -> [CASUAL] Sezon recomandat: " << sezon
             << " | Caracteristica: " << (areGluga ? "Cu gluga" : "Fara gluga") << "\n";

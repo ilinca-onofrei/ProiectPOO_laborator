@@ -30,6 +30,7 @@ public:
     void afiseazaDetaliiComplete() const {
         std::cout << "[ID:" << id << "] " << denumire << " (" << marime << ") - " << pret << " lei\n";
         afiseazaSpecific();
+        std::cout << " -> Scor stil: " << calculeazaScorStil() << "\n";
     }
 
     virtual void afiseazaSpecific() const = 0;
