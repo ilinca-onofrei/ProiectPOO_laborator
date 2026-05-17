@@ -131,7 +131,7 @@ void Boutique::afiseazaHaineSubPret(double pretMaxim) const {
 void Boutique::afiseazaHaineSortateDupaPret() const {
     std::vector<const Haina *> copie;
 
-    for (const Haina* h : inventar)
+    for (const Haina *h: inventar)
         copie.push_back(h);
 
     std::sort(copie.begin(), copie.end(), [](const Haina *a, const Haina *b) {
@@ -139,7 +139,7 @@ void Boutique::afiseazaHaineSortateDupaPret() const {
     });
 
     std::cout << "\n[Haine sortate dupa pret]\n";
-    for (const Haina* h : copie) {
+    for (const Haina *h: copie) {
         std::cout << *h << " - " << h->getPret() << " lei\n";
     }
 }
@@ -149,7 +149,7 @@ double Boutique::calculeazaPretMediu() const {
 
     double suma = 0;
 
-    for (const Haina* h : inventar)
+    for (const Haina *h: inventar)
         suma += h->getPret();
 
     return suma / inventar.size();
@@ -158,7 +158,7 @@ double Boutique::calculeazaPretMediu() const {
 void Boutique::afiseazaCategoriaDominanta() const {
     std::map<std::string, int> frecventa;
 
-    for (const Haina* h : inventar) {
+    for (const Haina *h: inventar) {
         frecventa[h->getCategorie()]++;
     }
     std::string best;
