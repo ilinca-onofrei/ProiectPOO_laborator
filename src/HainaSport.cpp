@@ -6,6 +6,10 @@ HainaSport::HainaSport(const std::string &denumire_, const std::string &marime_,
       tipActivitate{activitate_}, nivelCompresie{compresie_} {
 }
 
+double HainaSport::calculeazaScorStil() const {
+    return nivelCompresie * 10;
+}
+
 void HainaSport::afiseazaSpecific() const {
     std::cout << " -> [ECHIPAMENT SPORT] Destinat: " << tipActivitate
             << " | Nivel Compresie: " << nivelCompresie << "/5\n";

@@ -4,6 +4,28 @@ Clienta::Clienta(const std::string &nume_, double buget_)
     : nume{nume_}, buget{buget_}, puncteLoialitate{0} {
 }
 
+Clienta::Clienta(const Clienta &other)
+    : nume(other.nume), buget(other.buget), puncteLoialitate(other.puncteLoialitate) {
+    for (const auto &h: other.haineCumparate)
+        haineCumparate.push_back(h->clone());
+}
+
+Clienta &Clienta::operator=(const Clienta &other) {
+    if (this != &other) {
+        for (auto h: haineCumparate)
+            delete h;
+        haineCumparate.clear();
+
+        nume = other.nume;
+        buget = other.buget;
+        puncteLoialitate = other.puncteLoialitate;
+
+        for (const auto &h: other.haineCumparate)
+            haineCumparate.push_back(h->clone());
+    }
+    return *this;
+}
+
 Clienta::~Clienta() {
     for (auto h: haineCumparate) {
         delete h;

@@ -16,6 +16,7 @@
 #include "include/HainaSport.h"
 #include "include/HainaCasual.h"
 #include "include/HainaOffice.h"
+#include "include/Exceptii.h"
 
 int main() {
     Adresa adr{"Bucuresti", "Calea Victoriei", 101};
@@ -73,110 +74,96 @@ int main() {
 
     int optiune = 0;
     while (optiune != 11) {
-        std::cout << "\n==========================================";
-        std::cout << "\n       GESTIUNE CHIC ATELIER ";
-        std::cout << "\n==========================================\n";
-        std::cout << "1. Vezi vitrina magazinului (Manechin & Locatie)\n";
-        std::cout << "2. Vezi tot inventarul depozitului\n";
-        std::cout << "3. Imbraca manechinul (Alege haina dupa index)\n";
-        std::cout << "4. Dezbraca manechinul (Reset Outfit)\n";
-        std::cout << "5. Procesare plata (Finalizare achizitie)\n";
-        std::cout << "6. Cauta haine dupa categorie (Filtru)\n";
-        std::cout << "7. Lasa o recenzie pentru o haina\n";
-        std::cout << "8. Aplica REDUCERI DE WEEKEND (Black Friday de Primavara!)\n";
-        std::cout << "9. Vezi raport financiar (Istoric Vanzari)\n";
-        std::cout << "10. Vezi garderoba mea (Haine cumparate)\n";
-        std::cout << "11. Iesire program\n";
-        std::cout << "Alegerea ta: ";
-        std::cin >> optiune;
+        try {
+            std::cout << "\n==========================================";
+            std::cout << "\n       GESTIUNE CHIC ATELIER ";
+            std::cout << "\n==========================================\n";
+            std::cout << "1. Vezi vitrina magazinului\n";
+            std::cout << "2. Vezi inventarul depozitului\n";
+            std::cout << "3. Imbraca manechinul\n";
+            std::cout << "4. Dezbraca manechinul\n";
+            std::cout << "5. Procesare plata\n";
+            std::cout << "6. Cauta haine\n";
+            std::cout << "7. Recenzie\n";
+            std::cout << "8. Reduceri\n";
+            std::cout << "9. Raport\n";
+            std::cout << "10. Garderoba\n";
+            std::cout << "11. Exit\n";
 
-        if (optiune == 1) {
-            std::cout << "\n" << shop << "\n";
-        } else if (optiune == 2) {
-            shop.afiseazaStocComplet();
-        } else if (optiune == 3) {
-            int idx;
-            std::cout << "Introdu indexul hainei dorite (0-" << shop.getNrHaineInventar() - 1 << "): ";
-            std::cin >> idx;
-            if (idx >= 0 && static_cast<size_t>(idx) < shop.getNrHaineInventar()) {
-                Haina &hainaAleasa = shop.getHainaDinInventar(idx);
-                std::cout << "Se verifica haina cu ID-ul: " << hainaAleasa.getId() << "\n";
-                if (hainaAleasa.getStocActual() > 0) {
-                    man.incearcaHaina(hainaAleasa);
-                    hainaAleasa.scadeStoc();
-                    shop.recomandaAccesoriu(hainaAleasa);
-                    std::cout << "[INFO] Stoc ramas pentru acest model: " << hainaAleasa.getStocActual() << "\n";
-                } else {
-                    std::cout << "!!! EROARE: Stoc epuizat pentru '" << hainaAleasa.getDenumire() << "'.\n";
-                }
-            } else {
-                std::cout << "!!! Index invalid.\n";
-            }
-        } else if (optiune == 4) {
-            man.dezbracaManechin();
-        } else if (optiune == 5) {
-            std::cout << "\n--- PROCESARE PLATA ---\n";
-            std::cout << cl << "\n";
-            std::cout << "Nivel fidelitate actual: " << cl.getNivelFidelitate() << "\n";
-            double pretInitial = man.getValoareTinuta();
-            if (pretInitial == 0) {
-                std::cout << "Eroare: Manechinul nu are haine! Nimic de platit.\n";
-            } else {
-                double pretDupaFidelitate = cl.aplicaReducereFidelitate(pretInitial);
-                if (pretDupaFidelitate < pretInitial) {
-                    std::cout << "[Fidelitate] S-a aplicat reducerea de nivel! Pret nou: " << pretDupaFidelitate <<
-                            " lei\n";
-                }
-                std::string codIntrodus;
-                std::cout << "Introduceti codul promotional (sau 'SARI'): ";
-                std::cin >> codIntrodus;
-                double pretFinal = pretDupaFidelitate;
-                if (codIntrodus == "SPRING10") {
-                    pretFinal = promo10.aplicaReducere(pretDupaFidelitate);
-                    std::cout << "Cod aplicat cu succes! " << promo10 << "\n";
-                }
-                if (cl.poateCumpara(pretFinal)) {
-                    cl.finalizeazaAchizitie(pretFinal, man);
-                    registru.inregistreazaTranzactie(pretFinal, man);
-                    cl.tiparesteBon(pretFinal, codIntrodus);
-                    man.dezbracaManechin();
-                } else {
-                    std::cout << "Eroare: Fonduri insuficiente! Lipsesc: " << pretFinal - cl.getBuget() << " lei.\n";
-                }
-            }
-        } else if (optiune == 6) {
-            std::string cat;
-            std::cout << "Introdu categoria (Baza/Exterior/Incaltaminte/Accesoriu): ";
-            std::cin >> cat;
-            shop.afiseazaHaineDupaCategorie(cat);
-        } else if (optiune == 7) {
-            int idx, nota;
-            std::cout << "Index haina: ";
-            std::cin >> idx;
-            std::cout << "Nota (1-5): ";
-            std::cin >> nota;
-            if (idx >= 0 && static_cast<size_t>(idx) < shop.getNrHaineInventar()) {
+            std::cin >> optiune;
+
+            if (optiune == 1) {
+                std::cout << shop << "\n";
+            } else if (optiune == 2) {
+                shop.afiseazaStocComplet();
+            } else if (optiune == 3) {
+                int idx;
+                std::cin >> idx;
+
+                if (idx < 0 || idx >= (int) shop.getNrHaineInventar())
+                    throw ExceptieIndex();
+
+                Haina &h = shop.getHainaDinInventar(idx);
+
+                if (h.getStocActual() == 0)
+                    throw ExceptieStoc();
+
+                man.incearcaHaina(h);
+                h.scadeStoc();
+                shop.recomandaAccesoriu(h);
+            } else if (optiune == 4) {
+                man.dezbracaManechin();
+            } else if (optiune == 5) {
+                double pretInitial = man.getValoareTinuta();
+
+                if (pretInitial == 0)
+                    throw ExceptieIndex();
+
+                double pretFinal = cl.aplicaReducereFidelitate(pretInitial);
+
+                std::string cod;
+                std::cin >> cod;
+
+                if (cod == "SPRING10")
+                    pretFinal = promo10.aplicaReducere(pretFinal);
+
+                if (!cl.poateCumpara(pretFinal))
+                    throw ExceptieBuget();
+
+                cl.finalizeazaAchizitie(pretFinal, man);
+                registru.inregistreazaTranzactie(pretFinal, man);
+                cl.tiparesteBon(pretFinal, cod);
+                man.dezbracaManechin();
+            } else if (optiune == 6) {
+                std::string cat;
+                std::cin >> cat;
+                shop.afiseazaHaineDupaCategorie(cat);
+            } else if (optiune == 7) {
+                int idx, nota;
+                std::cin >> idx >> nota;
+
+                if (idx < 0 || idx >= (int) shop.getNrHaineInventar())
+                    throw ExceptieIndex();
+
                 shop.getHainaDinInventar(idx).adaugaRecenzie(nota);
-            } else {
-                std::cout << "!!! Index invalid.\n";
             }
-        } else if (optiune == 8) {
-            std::cout << "\n!!! BLACK FRIDAY: Se aplica o reducere de 20% la TOATE hainele din stoc !!!\n";
-            for (size_t i = 0; i < shop.getNrHaineInventar(); i++) {
-                shop.getHainaDinInventar(static_cast<int>(i)).aplicaDiscount(20);
+            else if (optiune == 8) {
+                for (size_t i = 0; i < shop.getNrHaineInventar(); i++)
+                    shop.getHainaDinInventar(i).aplicaDiscount(20);
+
+                std::cout << "Reducerile aplicate!\n";
+            } else if (optiune == 9) {
+                registru.afiseazaRaportComplet();
+            } else if (optiune == 10) {
+                cl.afiseazaGarderoba();
             }
-            std::cout << "Preturile au fost actualizate cu succes!\n";
-        } else if (optiune == 9) {
-            registru.afiseazaRaportComplet();
-        } else if (optiune == 10) {
-            cl.afiseazaGarderoba();
+        } catch (const std::exception &e) {
+            std::cout << "!!! EROARE: " << e.what() << "\n";
         }
     }
-    for (auto h : stocInitial) {
-        delete h;
-    }
-    stocInitial.clear();
 
-    std::cout << "\nSistemul ChicAtelier s-a inchis.\n";
+    for (auto h: stocInitial)
+        delete h;
+
     return 0;
 }

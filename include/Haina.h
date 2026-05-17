@@ -34,6 +34,8 @@ public:
 
     virtual void afiseazaSpecific() const = 0;
 
+    virtual double calculeazaScorStil() const = 0;
+
     const std::string &getCategorie() const;
 
     const std::string &getMarime() const;

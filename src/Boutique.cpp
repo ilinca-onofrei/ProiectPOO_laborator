@@ -1,5 +1,9 @@
 #include "../include/Boutique.h"
 #include <iomanip>
+#include "../include/HainaEleganta.h"
+#include "../include/HainaSport.h"
+#include "../include/HainaOffice.h"
+
 
 Boutique::Boutique(const std::string &nume_, const Adresa &adr_, Manechin &m_)
     : numeMagazin{nume_}, locatie{adr_}, vitrina{m_} {
@@ -51,17 +55,34 @@ void Boutique::afiseazaHaineDupaCategorie(const std::string &catCautata) const {
     if (!gasit) std::cout << "Nu am gasit haine in aceasta categorie.\n";
 }
 
+
 void Boutique::recomandaAccesoriu(const Haina &hainaAleasa) const {
     std::cout << "\n[Smart-Matching] Pentru " << hainaAleasa.getDenumire() << " recomandam:\n";
     bool gasit = false;
     for (const auto articol: inventar) {
-        if (articol->getCategorie() == "Accesoriu" && articol->getPret() < hainaAleasa.getPret() * 0.5) {
-            std::cout << " > " << articol->getDenumire() << " la doar " << articol->getPret() << " lei!\n";
+        if (articol->getCategorie() == "Accesoriu" &&
+            articol->getPret() < hainaAleasa.getPret() * 0.5) {
+            std::cout << " > " << articol->getDenumire()
+                    << " la doar " << articol->getPret() << " lei!\n";
             gasit = true;
             break;
         }
     }
-    if (!gasit) std::cout << " > Nicio recomandare momentan.\n";
+
+    if (!gasit)
+        std::cout << " > Nicio recomandare automata.\n";
+
+    std::cout << "[Sugestie stilistica]\n";
+
+    if (dynamic_cast<const HainaEleganta *>(&hainaAleasa)) {
+        std::cout << " Recomandare: Colier elegant sau geanta premium.\n";
+    } else if (dynamic_cast<const HainaSport *>(&hainaAleasa)) {
+        std::cout << " Recomandare: Rucsac sport sau sticla fitness.\n";
+    } else if (dynamic_cast<const HainaOffice *>(&hainaAleasa)) {
+        std::cout << " Recomandare: Ceas business sau geanta office.\n";
+    } else {
+        std::cout << " Recomandare: Accesorii casual cool.\n";
+    }
 }
 
 size_t Boutique::getNrHaineInventar() const {

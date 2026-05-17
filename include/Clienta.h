@@ -33,6 +33,10 @@ public:
 
     void afiseazaGarderoba() const;
 
+    Clienta(const Clienta &other);
+
+    Clienta &operator=(const Clienta &other);
+
     friend std::ostream &operator<<(std::ostream &os, const Clienta &c);
 };
 

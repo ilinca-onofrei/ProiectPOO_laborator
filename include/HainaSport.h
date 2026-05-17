@@ -14,5 +14,7 @@ public:
     Haina *clone() const override { return new HainaSport(*this); }
 
     void afiseazaSpecific() const override;
+
+    double calculeazaScorStil() const override;
 };
 #endif
