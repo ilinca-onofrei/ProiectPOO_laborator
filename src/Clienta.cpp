@@ -6,7 +6,7 @@ Clienta::Clienta(const std::string &nume_, double buget_)
 
 Clienta::Clienta(const Clienta &other)
     : nume(other.nume), buget(other.buget), puncteLoialitate(other.puncteLoialitate) {
-    for (const auto &h: other.haineCumparate)
+    for (const Haina* h : other.haineCumparate)
         haineCumparate.push_back(h->clone());
 }
 
@@ -20,7 +20,7 @@ Clienta &Clienta::operator=(const Clienta &other) {
         buget = other.buget;
         puncteLoialitate = other.puncteLoialitate;
 
-        for (const auto &h: other.haineCumparate)
+        for (const Haina* h : other.haineCumparate)
             haineCumparate.push_back(h->clone());
     }
     return *this;

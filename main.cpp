@@ -71,7 +71,8 @@ int main() {
     man.incearcaHaina(shop.getHainaDinInventar(1));
     man.incearcaHaina(shop.getHainaDinInventar(13));
     man.incearcaHaina(shop.getHainaDinInventar(9));
-
+    std::cout << " Buget client: " << cl.getBuget() << "\n";
+    std::cout << " Nivel fidelitate: " << cl.getNivelFidelitate() << "\n";
     int optiune = 0;
     while (optiune != 11) {
         try {
@@ -90,7 +91,7 @@ int main() {
             std::cout << "10. Garderoba\n";
             std::cout << "11. Exit\n";
 
-            std::cin >> optiune;
+            if (!(std::cin >> optiune)) break;
 
             if (optiune == 1) {
                 std::cout << shop << "\n";
@@ -98,7 +99,7 @@ int main() {
                 shop.afiseazaStocComplet();
             } else if (optiune == 3) {
                 int idx;
-                std::cin >> idx;
+                if (!(std::cin >> idx)) break;
 
                 if (idx < 0 || idx >= (int) shop.getNrHaineInventar())
                     throw ExceptieIndex();
@@ -122,7 +123,7 @@ int main() {
                 double pretFinal = cl.aplicaReducereFidelitate(pretInitial);
 
                 std::string cod;
-                std::cin >> cod;
+                if (!(std::cin >> cod)) break;
 
                 if (cod == "SPRING10")
                     pretFinal = promo10.aplicaReducere(pretFinal);
@@ -136,11 +137,11 @@ int main() {
                 man.dezbracaManechin();
             } else if (optiune == 6) {
                 std::string cat;
-                std::cin >> cat;
+                if (!(std::cin >> cat)) break;
                 shop.afiseazaHaineDupaCategorie(cat);
             } else if (optiune == 7) {
                 int idx, nota;
-                std::cin >> idx >> nota;
+                if (!(std::cin >> idx >> nota)) break;
 
                 if (idx < 0 || idx >= (int) shop.getNrHaineInventar())
                     throw ExceptieIndex();
@@ -160,6 +161,7 @@ int main() {
         } catch (const std::exception &e) {
             std::cout << "!!! EROARE: " << e.what() << "\n";
         }
+        if (!std::cin) break;
     }
 
     for (auto h: stocInitial)
