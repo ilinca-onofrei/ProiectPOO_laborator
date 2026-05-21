@@ -63,7 +63,6 @@ public:
     friend std::ostream &operator<<(std::ostream &os, const Haina &h);
 
     static int getNrHaine();
-
 };
 
 #endif

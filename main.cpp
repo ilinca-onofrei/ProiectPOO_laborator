@@ -165,7 +165,6 @@ int main() {
             } else if (optiune == 1) {
                 std::cout << shop << "\n";
             } else if (optiune == 2) {
-
                 int sub;
                 std::cout << "\n=== AFISARE HAINE ===\n";
                 std::cout << "1. Toate hainele\n";
@@ -181,8 +180,7 @@ int main() {
 
                 if (sub == 1) {
                     shop.afiseazaStocComplet();
-                }
-                else if (sub == 2) {
+                } else if (sub == 2) {
                     std::string cat;
                     std::cout << "Categorie (Luxury / Casual / Sport / Office / Eleganta): ";
 
@@ -190,20 +188,15 @@ int main() {
                         throw ExceptieInput();
 
                     shop.afiseazaHaineDupaCategorie(cat);
-                }
-                else if (sub == 3) {
+                } else if (sub == 3) {
                     shop.afiseazaHaineSortateDupaPret();
-                }
-                else if (sub == 4) {
+                } else if (sub == 4) {
                     shop.afiseazaHaineSortateDesc();
-                }
-                else if (sub == 5) {
+                } else if (sub == 5) {
                     shop.afiseazaCeaMaiBunaHaina();
-                }
-                else if (sub == 6) {
+                } else if (sub == 6) {
                     shop.afiseazaHaineSortateDupaRating();
-                }
-                else {
+                } else {
                     std::cout << "Optiune invalida!\n";
                 }
             } else if (optiune == 3) {

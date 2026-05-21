@@ -46,9 +46,9 @@ public:
 
     friend std::ostream &operator<<(std::ostream &os, const Boutique &b);
 
-    void afiseazaHaineSortateDesc() const ;
+    void afiseazaHaineSortateDesc() const;
 
-    void afiseazaHaineSortateDupaRating() const ;
+    void afiseazaHaineSortateDupaRating() const;
 
     // COPY CONSTRUCTOR
     Boutique(const Boutique &other);
