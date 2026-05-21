@@ -43,7 +43,7 @@ void Wishlist::afiseaza() {
 
     std::cout << "\n===== WISHLIST =====\n";
 
-    if (dorinte.empty()) {
+    if (esteGol()) {
         std::cout << "GOL\n";
         return;
     }
