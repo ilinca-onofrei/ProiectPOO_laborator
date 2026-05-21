@@ -306,7 +306,7 @@ int main() {
         } catch (const std::exception &e) {
             std::cout << "!!! EROARE: " << e.what() << "\n";
         }
-        if (!std::cin) break;
+        if (!std::cin) break; //
     }
 
     for (auto h: stocInitial)
