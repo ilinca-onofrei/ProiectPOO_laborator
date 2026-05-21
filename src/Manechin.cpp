@@ -9,11 +9,11 @@ Manechin::Manechin(const std::string &nume_, const std::string &marime_)
       accesoriu{nullptr} {
 }
 
-const std::string& Manechin::getNume() const {
+const std::string &Manechin::getNume() const {
     return numeManechin;
 }
 
-const std::string& Manechin::getMarime() const {
+const std::string &Manechin::getMarime() const {
     return marimeManechin;
 }
 

@@ -34,8 +34,9 @@ public:
 
     Haina *getAccesoriu() const;
 
-    const std::string& getNume() const;
-    const std::string& getMarime() const;
+    const std::string &getNume() const;
+
+    const std::string &getMarime() const;
 
     friend std::ostream &operator<<(std::ostream &os, const Manechin &m);
 };

@@ -42,7 +42,7 @@ public:
 
     void afiseazaCategoriaDominanta() const;
 
-    void setManechin(Manechin &m);
+    void setManechin(const Manechin &m);
 
     friend std::ostream &operator<<(std::ostream &os, const Boutique &b);
 
