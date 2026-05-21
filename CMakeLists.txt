@@ -77,6 +77,8 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         include/Exceptii.h
         src/HainaLuxury.cpp
         include/HainaLuxury.h
+        src/Wishlist.cpp
+        include/Wishlist.h
 )
 target_sources(${MAIN_EXECUTABLE_NAME}
     PRIVATE

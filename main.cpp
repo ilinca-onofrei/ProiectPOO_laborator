@@ -18,6 +18,7 @@
 #include "include/HainaOffice.h"
 #include "include/Exceptii.h"
 #include "include/HainaLuxury.h"
+#include "include/Wishlist.h"
 
 int main() {
     Adresa adr{"Bucuresti", "Calea Victoriei", 101};
@@ -33,6 +34,7 @@ int main() {
     Promotie promo10{"SPRING10", 10.0};
     IstoricVanzari registru;
     std::vector<Haina *> stocInitial;
+    Wishlist wl;
 
     // CATEGORIA ELEGANTE
     stocInitial.push_back(new HainaEleganta("Rochie de Seara Velvet", "M", 450.0, "Catifea", "Gala"));
@@ -113,7 +115,7 @@ int main() {
     std::cout << " Nivel fidelitate: " << cl.getNivelFidelitate() << "\n";
     std::cout << "Numar total haine create: " << Haina::getNrHaine() << "\n";
     int optiune = 0;
-    while (optiune != 17) {
+    while (optiune != 19) {
         try {
             std::cout << "\n==========================================";
             std::cout << "\n       GESTIUNE CHIC ATELIER ";
@@ -135,7 +137,9 @@ int main() {
             std::cout << "14. Pret mediu\n";
             std::cout << "15. Categoria dominanta\n";
             std::cout << "16. Afiseaza produse luxury\n";
-            std::cout << "17. Exit\n";
+            std::cout << "17. Adauga in wishlist\n";
+            std::cout << "18. Afiseaza wishlist\n";
+            std::cout << "19. Exit\n";
 
             if (!(std::cin >> optiune)) break;
 
@@ -249,6 +253,23 @@ int main() {
                         h.afiseazaDetaliiComplete();
                     }
                 }
+            } else if (optiune == 17) {
+                int idx;
+
+                if (!(std::cin >> idx))
+                    throw ExceptieInput();
+
+                if (idx < 0 || idx >= (int)shop.getNrHaineInventar())
+                    throw ExceptieIndex();
+
+                wl.adauga(&shop.getHainaDinInventar(idx));
+            }
+            else if (optiune == 18) {
+                wl.afiseaza();
+
+                std::cout << "Total wishlist: "
+                          << wl.calculeazaTotal()
+                          << " lei\n";
             }
         } catch (const std::exception &e) {
             std::cout << "!!! EROARE: " << e.what() << "\n";
