@@ -21,8 +21,14 @@
 
 int main() {
     Adresa adr{"Bucuresti", "Calea Victoriei", 101};
-    Manechin man{"Anna", "M"};
-    Boutique shop{"ChicAtelier", adr, man};
+    std::vector<Manechin> manechine = {
+        {"Emma", "XS"},
+        {"Anna", "S"},
+        {"Sophia", "M"},
+        {"Ava", "L"}
+    };
+    int manechinSelectat = 2;
+    Boutique shop{"ChicAtelier", adr, manechine[manechinSelectat]};
     Clienta cl{"Ilinca", 2000.0};
     Promotie promo10{"SPRING10", 10.0};
     IstoricVanzari registru;
@@ -100,9 +106,9 @@ int main() {
         shop.adaugaHainaInStoc(*h);
     }
 
-    man.incearcaHaina(shop.getHainaDinInventar(1));
-    man.incearcaHaina(shop.getHainaDinInventar(13));
-    man.incearcaHaina(shop.getHainaDinInventar(9));
+    shop.getManechin().incearcaHaina(shop.getHainaDinInventar(1));
+    shop.getManechin().incearcaHaina(shop.getHainaDinInventar(13));
+    shop.getManechin().incearcaHaina(shop.getHainaDinInventar(9));
     std::cout << " Buget client: " << cl.getBuget() << "\n";
     std::cout << " Nivel fidelitate: " << cl.getNivelFidelitate() << "\n";
     std::cout << "Numar total haine create: " << Haina::getNrHaine() << "\n";
@@ -112,7 +118,8 @@ int main() {
             std::cout << "\n==========================================";
             std::cout << "\n       GESTIUNE CHIC ATELIER ";
             std::cout << "\n==========================================\n";
-            std::cout << "1. Vezi vitrina magazinului\n";
+            std::cout << "0. Alege manechin\n";
+            std::cout << "1. Haine selectate\n";
             std::cout << "2. Vezi inventarul depozitului\n";
             std::cout << "3. Imbraca manechinul\n";
             std::cout << "4. Dezbraca manechinul\n";
@@ -132,7 +139,26 @@ int main() {
 
             if (!(std::cin >> optiune)) break;
 
-            if (optiune == 1) {
+            if (optiune == 0) {
+                std::cout << "\nAlege manechin:\n";
+                std::cout << "0. Emma (XS)\n";
+                std::cout << "1. Anna (S)\n";
+                std::cout << "2. Sophia (M)\n";
+                std::cout << "3. Ava (L)\n";
+
+                int alegere;
+                if (!(std::cin >> alegere))
+                    throw ExceptieInput();
+
+                if (alegere < 0 || alegere > 3)
+                    throw ExceptieIndex();
+
+                manechinSelectat = alegere;
+                shop.setManechin(manechine[manechinSelectat]);
+                std::cout << "Manechin selectat: "
+          << manechine[manechinSelectat].getNume()
+          << " (" << manechine[manechinSelectat].getMarime() << ")\n";
+            } else if (optiune == 1) {
                 std::cout << shop << "\n";
             } else if (optiune == 2) {
                 shop.afiseazaStocComplet();
@@ -148,13 +174,13 @@ int main() {
                 if (h.getStocActual() == 0)
                     throw ExceptieStoc();
 
-                man.incearcaHaina(h);
+                shop.getManechin().incearcaHaina(h);
                 h.scadeStoc();
                 shop.recomandaAccesoriu(h);
             } else if (optiune == 4) {
-                man.dezbracaManechin();
+                shop.getManechin().dezbracaManechin();
             } else if (optiune == 5) {
-                double pretInitial = man.getValoareTinuta();
+                double pretInitial = shop.getManechin().getValoareTinuta();
 
                 if (pretInitial == 0)
                     throw ExceptieIndex();
@@ -170,10 +196,10 @@ int main() {
                 if (!cl.poateCumpara(pretFinal))
                     throw ExceptieBuget();
 
-                cl.finalizeazaAchizitie(pretFinal, man);
-                registru.inregistreazaTranzactie(pretFinal, man);
+                cl.finalizeazaAchizitie(pretFinal, shop.getManechin());
+                registru.inregistreazaTranzactie(pretFinal, shop.getManechin());
                 cl.tiparesteBon(pretFinal, cod);
-                man.dezbracaManechin();
+                shop.getManechin().dezbracaManechin();
             } else if (optiune == 6) {
                 std::string cat;
                 if (!(std::cin >> cat)) throw ExceptieInput();;
@@ -235,7 +261,7 @@ int main() {
 
     std::cout << "\n TESTARE COPY \n";
     Boutique shopCopy = shop; // copy constructor
-    Boutique shopAssign{"Temp", adr, man};
+    Boutique shopAssign{"Temp", adr, manechine[manechinSelectat]};
     shopAssign = shop; // operator=
     std::cout << "Copiere realizata cu succes!\n";
 

@@ -42,6 +42,8 @@ public:
 
     void afiseazaCategoriaDominanta() const;
 
+    void setManechin(Manechin& m);
+
     friend std::ostream &operator<<(std::ostream &os, const Boutique &b);
 
     // COPY CONSTRUCTOR
@@ -52,6 +54,8 @@ public:
 
     // functie helper pentru swap
     friend void swap(Boutique &a, Boutique &b) noexcept;
+
+    Manechin& getManechin();
 };
 
 #endif

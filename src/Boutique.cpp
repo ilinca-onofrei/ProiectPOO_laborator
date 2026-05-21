@@ -201,6 +201,14 @@ Boutique &Boutique::operator=(Boutique other) {
     return *this;
 }
 
+void Boutique::setManechin(Manechin& m) {
+    vitrina = m;
+}
+
+Manechin& Boutique::getManechin() {
+    return vitrina;
+}
+
 std::ostream &operator<<(std::ostream &os, const Boutique &b) {
     os << "***" << b.numeMagazin << "***\n";
     os << "Locatie: " << b.locatie << "\n";

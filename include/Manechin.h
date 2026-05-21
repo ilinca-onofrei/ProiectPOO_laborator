@@ -9,13 +9,17 @@ class Manechin {
 private:
     std::string numeManechin;
     std::string marimeManechin;
-    Haina *stratBaza;
-    Haina *stratExterior;
-    Haina *incaltaminte;
-    Haina *accesoriu;
+
+    Haina* stratBaza = nullptr;
+    Haina* stratExterior = nullptr;
+    Haina* incaltaminte = nullptr;
+    Haina* accesoriu = nullptr;
+
 
 public:
     Manechin(const std::string &nume_, const std::string &marime_);
+
+    ~Manechin() = default;
 
     void incearcaHaina(Haina &h);
 
@@ -30,6 +34,10 @@ public:
     Haina *getIncaltaminte() const;
 
     Haina *getAccesoriu() const;
+
+    std::string getNume() const;
+
+    std::string getMarime() const;
 
     friend std::ostream &operator<<(std::ostream &os, const Manechin &m);
 };
