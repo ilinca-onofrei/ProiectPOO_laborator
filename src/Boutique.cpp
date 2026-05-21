@@ -253,21 +253,21 @@ void Boutique::afiseazaHaineSortateDupaRating() const {
 
 // fct ajutatoare
 std::string toLower(std::string s) {
-    for (char& c : s) {
+    for (char &c: s) {
         c = std::tolower(c);
     }
     return s;
 }
 
 // fct principala
-void Boutique::cautaHaineDupaNume(const std::string& text) const {
+void Boutique::cautaHaineDupaNume(const std::string &text) const {
     std::string cautare = toLower(text);
 
     std::cout << "\n=== CAUTARE DUPA NUME ===\n";
 
     bool gasit = false;
 
-    for (const Haina* h : inventar) {
+    for (const Haina *h: inventar) {
         std::string nume = toLower(h->getDenumire());
 
         if (nume.find(cautare) != std::string::npos) {

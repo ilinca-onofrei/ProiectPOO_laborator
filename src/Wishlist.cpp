@@ -76,26 +76,26 @@ void Wishlist::curataExpirate() {
 
     dorinte.erase(
         std::remove_if(dorinte.begin(), dorinte.end(),
-            [&](const EntryWishlist& e) {
-                return std::difftime(now, e.dataAdaugare) > LIM_7_ZILE;
-            }),
+                       [&](const EntryWishlist &e) {
+                           return std::difftime(now, e.dataAdaugare) > LIM_7_ZILE;
+                       }),
         dorinte.end());
 
     int dupa = dorinte.size();
 
     std::cout << "[Wishlist] S-au sters "
-              << (inainte - dupa)
-              << " produse expirate.\n";
+            << (inainte - dupa)
+            << " produse expirate.\n";
 }
 
 void Wishlist::sterge(int idx) {
-    if (idx < 0 || idx >= (int)dorinte.size()) {
+    if (idx < 0 || idx >= (int) dorinte.size()) {
         std::cout << "Index invalid!\n";
         return;
     }
 
     std::cout << "[Wishlist] Sters: "
-              << dorinte[idx].h->getDenumire() << "\n";
+            << dorinte[idx].h->getDenumire() << "\n";
 
     dorinte.erase(dorinte.begin() + idx);
 }

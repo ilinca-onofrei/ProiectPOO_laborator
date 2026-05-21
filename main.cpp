@@ -305,7 +305,7 @@ int main() {
                 std::cout << "Total wishlist: "
                         << wl.calculeazaTotal()
                         << " lei\n";
-            }else if (optiune == 19) {
+            } else if (optiune == 19) {
                 int idx;
 
                 wl.afiseaza();

@@ -61,8 +61,7 @@ public:
 
     Manechin &getManechin();
 
-    void cautaHaineDupaNume(const std::string& text) const;
-
+    void cautaHaineDupaNume(const std::string &text) const;
 };
 
 #endif
