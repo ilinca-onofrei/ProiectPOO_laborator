@@ -201,11 +201,11 @@ Boutique &Boutique::operator=(Boutique other) {
     return *this;
 }
 
-void Boutique::setManechin(Manechin& m) {
+void Boutique::setManechin(Manechin &m) {
     vitrina = m;
 }
 
-Manechin& Boutique::getManechin() {
+Manechin &Boutique::getManechin() {
     return vitrina;
 }
 

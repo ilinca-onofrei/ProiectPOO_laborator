@@ -17,7 +17,6 @@ std::string Manechin::getMarime() const {
 }
 
 void Manechin::incearcaHaina(Haina &h) {
-
     std::string nume = h.getDenumire();
 
     if (h.getMarime() != marimeManechin &&
@@ -36,7 +35,6 @@ void Manechin::incearcaHaina(Haina &h) {
         nume.find("Curea") == std::string::npos &&
         nume.find("Portofel") == std::string::npos &&
         nume.find("Rucsac") == std::string::npos) {
-
         std::cout << "Eroare: Marime incompatibila!\n";
         return;
     }
@@ -48,34 +46,28 @@ void Manechin::incearcaHaina(Haina &h) {
         nume.find("Cizme") != std::string::npos ||
         nume.find("Sneakers") != std::string::npos ||
         nume.find("Slapi") != std::string::npos) {
-
         incaltaminte = &h;
         std::cout << h.getDenumire() << " (Incaltaminte) echipata.\n";
-    }
-    else if (nume.find("Geanta") != std::string::npos ||
-             nume.find("Colier") != std::string::npos ||
-             nume.find("Ceas") != std::string::npos ||
-             nume.find("Bratara") != std::string::npos ||
-             nume.find("Palarie") != std::string::npos ||
-             nume.find("Ochelari") != std::string::npos ||
-             nume.find("Esarfa") != std::string::npos ||
-             nume.find("Curea") != std::string::npos ||
-             nume.find("Portofel") != std::string::npos ||
-             nume.find("Rucsac") != std::string::npos) {
-
+    } else if (nume.find("Geanta") != std::string::npos ||
+               nume.find("Colier") != std::string::npos ||
+               nume.find("Ceas") != std::string::npos ||
+               nume.find("Bratara") != std::string::npos ||
+               nume.find("Palarie") != std::string::npos ||
+               nume.find("Ochelari") != std::string::npos ||
+               nume.find("Esarfa") != std::string::npos ||
+               nume.find("Curea") != std::string::npos ||
+               nume.find("Portofel") != std::string::npos ||
+               nume.find("Rucsac") != std::string::npos) {
         accesoriu = &h;
         std::cout << h.getDenumire() << " (Accesoriu) adaugat.\n";
-    }
-    else if (nume.find("Geaca") != std::string::npos ||
-             nume.find("Palton") != std::string::npos ||
-             nume.find("Cardigan") != std::string::npos ||
-             nume.find("Hanorac") != std::string::npos ||
-             nume.find("Sacou") != std::string::npos) {
-
+    } else if (nume.find("Geaca") != std::string::npos ||
+               nume.find("Palton") != std::string::npos ||
+               nume.find("Cardigan") != std::string::npos ||
+               nume.find("Hanorac") != std::string::npos ||
+               nume.find("Sacou") != std::string::npos) {
         stratExterior = &h;
         std::cout << h.getDenumire() << " (Exterior) echipata.\n";
-    }
-    else {
+    } else {
         stratBaza = &h;
         std::cout << h.getDenumire() << " (Baza) echipata.\n";
     }

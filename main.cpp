@@ -156,8 +156,8 @@ int main() {
                 manechinSelectat = alegere;
                 shop.setManechin(manechine[manechinSelectat]);
                 std::cout << "Manechin selectat: "
-          << manechine[manechinSelectat].getNume()
-          << " (" << manechine[manechinSelectat].getMarime() << ")\n";
+                        << manechine[manechinSelectat].getNume()
+                        << " (" << manechine[manechinSelectat].getMarime() << ")\n";
             } else if (optiune == 1) {
                 std::cout << shop << "\n";
             } else if (optiune == 2) {

@@ -42,7 +42,7 @@ public:
 
     void afiseazaCategoriaDominanta() const;
 
-    void setManechin(Manechin& m);
+    void setManechin(Manechin &m);
 
     friend std::ostream &operator<<(std::ostream &os, const Boutique &b);
 
@@ -55,7 +55,7 @@ public:
     // functie helper pentru swap
     friend void swap(Boutique &a, Boutique &b) noexcept;
 
-    Manechin& getManechin();
+    Manechin &getManechin();
 };
 
 #endif
