@@ -210,43 +210,43 @@ Manechin &Boutique::getManechin() {
 }
 
 void Boutique::afiseazaHaineSortateDesc() const {
-    std::vector<Haina *> v;
+    std::vector<Haina*> v;
 
     for (size_t i = 0; i < inventar.size(); i++) {
         v.push_back(inventar[i]);
     }
 
     std::sort(v.begin(), v.end(),
-              [](Haina *a, Haina *b) {
+              [](const Haina* a, const Haina* b) {
                   return a->getPret() > b->getPret();
               });
 
     std::cout << "\n=== SORTARE PRET DESCRESCATOR ===\n";
 
-    for (auto h: v) {
+    for (const auto h : v) {
         h->afiseazaDetaliiComplete();
     }
 }
 
 void Boutique::afiseazaHaineSortateDupaRating() const {
-    std::vector<Haina *> v;
+    std::vector<Haina*> v;
 
     for (size_t i = 0; i < inventar.size(); i++) {
         v.push_back(inventar[i]);
     }
 
     std::sort(v.begin(), v.end(),
-              [](Haina *a, Haina *b) {
+              [](const Haina* a, const Haina* b) {
                   return a->getMediaRecenziilor() > b->getMediaRecenziilor();
               });
 
     std::cout << "\n=== SORTARE DUPA RATING ===\n";
 
-    for (auto h: v) {
+    for (const auto h : v) {
         std::cout << h->getDenumire()
-                << " | Pret: " << h->getPret()
-                << " | Rating: " << h->getMediaRecenziilor()
-                << "\n";
+                  << " | Pret: " << h->getPret()
+                  << " | Rating: " << h->getMediaRecenziilor()
+                  << "\n";
     }
 }
 
