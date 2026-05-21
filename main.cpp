@@ -259,17 +259,16 @@ int main() {
                 if (!(std::cin >> idx))
                     throw ExceptieInput();
 
-                if (idx < 0 || idx >= (int)shop.getNrHaineInventar())
+                if (idx < 0 || idx >= (int) shop.getNrHaineInventar())
                     throw ExceptieIndex();
 
                 wl.adauga(&shop.getHainaDinInventar(idx));
-            }
-            else if (optiune == 18) {
+            } else if (optiune == 18) {
                 wl.afiseaza();
 
                 std::cout << "Total wishlist: "
-                          << wl.calculeazaTotal()
-                          << " lei\n";
+                        << wl.calculeazaTotal()
+                        << " lei\n";
             }
         } catch (const std::exception &e) {
             std::cout << "!!! EROARE: " << e.what() << "\n";

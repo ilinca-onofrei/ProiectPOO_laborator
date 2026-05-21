@@ -8,7 +8,7 @@
 #define OOP_WISHLIST_H
 
 struct EntryWishlist {
-    Haina* h;
+    Haina *h;
     std::time_t dataAdaugare;
 };
 
@@ -17,14 +17,16 @@ private:
     std::vector<EntryWishlist> dorinte;
 
 public:
-    void adauga(Haina* h);
+    void adauga(Haina *h);
+
     void afiseaza();
+
     void stergeExpirate();
+
     double calculeazaTotal();
+
     bool esteGol() const;
 };
-
-
 
 
 #endif //OOP_WISHLIST_H

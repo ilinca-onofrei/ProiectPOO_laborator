@@ -5,7 +5,7 @@
 #define SECUNDE_IN_ZI 86400
 #define LIM_7_ZILE (7 * SECUNDE_IN_ZI)
 
-void Wishlist::adauga(Haina* h) {
+void Wishlist::adauga(Haina *h) {
     EntryWishlist entry;
     entry.h = h;
     entry.dataAdaugare = std::time(nullptr);
@@ -20,18 +20,17 @@ void Wishlist::stergeExpirate() {
 
     dorinte.erase(
         std::remove_if(dorinte.begin(), dorinte.end(),
-            [&](const EntryWishlist& e) {
+                       [&](const EntryWishlist &e) {
+                           double diff = std::difftime(now, e.dataAdaugare);
 
-                double diff = std::difftime(now, e.dataAdaugare);
+                           if (diff > LIM_7_ZILE) {
+                               std::cout << "[Wishlist] Expirat: "
+                                       << e.h->getDenumire() << "\n";
+                               return true;
+                           }
 
-                if (diff > LIM_7_ZILE) {
-                    std::cout << "[Wishlist] Expirat: "
-                              << e.h->getDenumire() << "\n";
-                    return true;
-                }
-
-                return false;
-            }),
+                           return false;
+                       }),
         dorinte.end());
 }
 
@@ -50,11 +49,11 @@ void Wishlist::afiseaza() {
     }
 
     int i = 0;
-    for (const auto& e : dorinte) {
+    for (const auto &e: dorinte) {
         std::cout << i++ << ". "
-                  << e.h->getDenumire()
-                  << " | " << e.h->getPret()
-                  << " lei\n";
+                << e.h->getDenumire()
+                << " | " << e.h->getPret()
+                << " lei\n";
     }
 }
 
@@ -62,7 +61,7 @@ double Wishlist::calculeazaTotal() {
     stergeExpirate();
 
     double total = 0;
-    for (const auto& e : dorinte) {
+    for (const auto &e: dorinte) {
         total += e.h->getPret();
     }
 
