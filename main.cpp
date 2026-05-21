@@ -165,7 +165,47 @@ int main() {
             } else if (optiune == 1) {
                 std::cout << shop << "\n";
             } else if (optiune == 2) {
-                shop.afiseazaStocComplet();
+
+                int sub;
+                std::cout << "\n=== AFISARE HAINE ===\n";
+                std::cout << "1. Toate hainele\n";
+                std::cout << "2. Filtru dupa categorie\n";
+                std::cout << "3. Sortare dupa pret crescator\n";
+                std::cout << "4. Sortare dupa pret descrescator\n";
+                std::cout << "5. Top haina (cel mai bun rating)\n";
+                std::cout << "6. Sortare dupa rating\n";
+                std::cout << "Alege optiune: ";
+
+                if (!(std::cin >> sub))
+                    throw ExceptieInput();
+
+                if (sub == 1) {
+                    shop.afiseazaStocComplet();
+                }
+                else if (sub == 2) {
+                    std::string cat;
+                    std::cout << "Categorie (Luxury / Casual / Sport / Office / Eleganta): ";
+
+                    if (!(std::cin >> cat))
+                        throw ExceptieInput();
+
+                    shop.afiseazaHaineDupaCategorie(cat);
+                }
+                else if (sub == 3) {
+                    shop.afiseazaHaineSortateDupaPret();
+                }
+                else if (sub == 4) {
+                    shop.afiseazaHaineSortateDesc();
+                }
+                else if (sub == 5) {
+                    shop.afiseazaCeaMaiBunaHaina();
+                }
+                else if (sub == 6) {
+                    shop.afiseazaHaineSortateDupaRating();
+                }
+                else {
+                    std::cout << "Optiune invalida!\n";
+                }
             } else if (optiune == 3) {
                 int idx;
                 if (!(std::cin >> idx)) break;

@@ -209,6 +209,47 @@ Manechin &Boutique::getManechin() {
     return vitrina;
 }
 
+void Boutique::afiseazaHaineSortateDesc() {
+    std::vector<Haina*> v;
+
+    for (size_t i = 0; i < inventar.size(); i++) {
+        v.push_back(inventar[i]);
+    }
+
+    std::sort(v.begin(), v.end(),
+        [](Haina* a, Haina* b) {
+            return a->getPret() > b->getPret();
+        });
+
+    std::cout << "\n=== SORTARE PRET DESCRESCATOR ===\n";
+
+    for (auto h : v) {
+        h->afiseazaDetaliiComplete();
+    }
+}
+
+void Boutique::afiseazaHaineSortateDupaRating() {
+    std::vector<Haina*> v;
+
+    for (size_t i = 0; i < inventar.size(); i++) {
+        v.push_back(inventar[i]);
+    }
+
+    std::sort(v.begin(), v.end(),
+        [](Haina* a, Haina* b) {
+            return a->getMediaRecenziilor() > b->getMediaRecenziilor();
+        });
+
+    std::cout << "\n=== SORTARE DUPA RATING ===\n";
+
+    for (auto h : v) {
+        std::cout << h->getDenumire()
+                  << " | Pret: " << h->getPret()
+                  << " | Rating: " << h->getMediaRecenziilor()
+                  << "\n";
+    }
+}
+
 std::ostream &operator<<(std::ostream &os, const Boutique &b) {
     os << "***" << b.numeMagazin << "***\n";
     os << "Locatie: " << b.locatie << "\n";
