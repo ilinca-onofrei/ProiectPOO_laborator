@@ -10,11 +10,10 @@ private:
     std::string numeManechin;
     std::string marimeManechin;
 
-    Haina* stratBaza = nullptr;
-    Haina* stratExterior = nullptr;
-    Haina* incaltaminte = nullptr;
-    Haina* accesoriu = nullptr;
-
+    Haina *stratBaza = nullptr;
+    Haina *stratExterior = nullptr;
+    Haina *incaltaminte = nullptr;
+    Haina *accesoriu = nullptr;
 
 public:
     Manechin(const std::string &nume_, const std::string &marime_);
