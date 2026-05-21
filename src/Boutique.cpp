@@ -201,7 +201,7 @@ Boutique &Boutique::operator=(Boutique other) {
     return *this;
 }
 
-void Boutique::setManechin(Manechin &m) {
+void Boutique::setManechin(const Manechin &m) {
     vitrina = m;
 }
 

@@ -8,13 +8,15 @@ Manechin::Manechin(const std::string &nume_, const std::string &marime_)
       incaltaminte{nullptr},
       accesoriu{nullptr} {
 }
-std::string Manechin::getNume() const {
+
+const std::string& Manechin::getNume() const {
     return numeManechin;
 }
 
-std::string Manechin::getMarime() const {
+const std::string& Manechin::getMarime() const {
     return marimeManechin;
 }
+
 
 void Manechin::incearcaHaina(Haina &h) {
     std::string nume = h.getDenumire();
