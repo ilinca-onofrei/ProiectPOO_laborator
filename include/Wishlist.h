@@ -26,6 +26,10 @@ public:
     double calculeazaTotal();
 
     bool esteGol() const;
+
+    void sterge(int idx);
+
+    void curataExpirate();
 };
 
 

@@ -48,6 +48,8 @@ void Wishlist::afiseaza() {
         return;
     }
 
+    std::cout << "Numar produse: " << dorinte.size() << "\n";
+
     int i = 0;
     for (const auto &e: dorinte) {
         std::cout << i++ << ". "
@@ -64,6 +66,36 @@ double Wishlist::calculeazaTotal() {
     for (const auto &e: dorinte) {
         total += e.h->getPret();
     }
-
     return total;
+}
+
+void Wishlist::curataExpirate() {
+    std::time_t now = std::time(nullptr);
+
+    int inainte = dorinte.size();
+
+    dorinte.erase(
+        std::remove_if(dorinte.begin(), dorinte.end(),
+            [&](const EntryWishlist& e) {
+                return std::difftime(now, e.dataAdaugare) > LIM_7_ZILE;
+            }),
+        dorinte.end());
+
+    int dupa = dorinte.size();
+
+    std::cout << "[Wishlist] S-au sters "
+              << (inainte - dupa)
+              << " produse expirate.\n";
+}
+
+void Wishlist::sterge(int idx) {
+    if (idx < 0 || idx >= (int)dorinte.size()) {
+        std::cout << "Index invalid!\n";
+        return;
+    }
+
+    std::cout << "[Wishlist] Sters: "
+              << dorinte[idx].h->getDenumire() << "\n";
+
+    dorinte.erase(dorinte.begin() + idx);
 }

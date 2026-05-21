@@ -60,6 +60,9 @@ public:
     friend void swap(Boutique &a, Boutique &b) noexcept;
 
     Manechin &getManechin();
+
+    void cautaHaineDupaNume(const std::string& text) const;
+
 };
 
 #endif

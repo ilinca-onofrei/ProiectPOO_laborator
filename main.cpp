@@ -115,7 +115,7 @@ int main() {
     std::cout << " Nivel fidelitate: " << cl.getNivelFidelitate() << "\n";
     std::cout << "Numar total haine create: " << Haina::getNrHaine() << "\n";
     int optiune = 0;
-    while (optiune != 19) {
+    while (optiune != 22) {
         try {
             std::cout << "\n==========================================";
             std::cout << "\n       GESTIUNE CHIC ATELIER ";
@@ -139,7 +139,10 @@ int main() {
             std::cout << "16. Afiseaza produse luxury\n";
             std::cout << "17. Adauga in wishlist\n";
             std::cout << "18. Afiseaza wishlist\n";
-            std::cout << "19. Exit\n";
+            std::cout << "19. Sterge din wishlist\n";
+            std::cout << "20. Cauta haine dupa nume\n";
+            std::cout << "21. Curata wishlist (expirate)\n";
+            std::cout << "22. Exit\n";
 
             if (!(std::cin >> optiune)) break;
 
@@ -302,6 +305,22 @@ int main() {
                 std::cout << "Total wishlist: "
                         << wl.calculeazaTotal()
                         << " lei\n";
+            }else if (optiune == 19) {
+                int idx;
+
+                wl.afiseaza();
+
+                std::cout << "Index de sters: ";
+                std::cin >> idx;
+
+                wl.sterge(idx);
+            } else if (optiune == 20) {
+                std::string text;
+                std::cout << "Introdu text: ";
+                std::cin >> text;
+                shop.cautaHaineDupaNume(text);
+            } else if (optiune == 23) {
+                wl.curataExpirate();
             }
         } catch (const std::exception &e) {
             std::cout << "!!! EROARE: " << e.what() << "\n";

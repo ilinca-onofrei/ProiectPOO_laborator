@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <algorithm>
 #include <map>
+#include <cctype>
 #include "../include/HainaEleganta.h"
 #include "../include/HainaSport.h"
 #include "../include/HainaOffice.h"
@@ -210,43 +211,73 @@ Manechin &Boutique::getManechin() {
 }
 
 void Boutique::afiseazaHaineSortateDesc() const {
-    std::vector<Haina*> v;
+    std::vector<Haina *> v;
 
     for (size_t i = 0; i < inventar.size(); i++) {
         v.push_back(inventar[i]);
     }
 
     std::sort(v.begin(), v.end(),
-              [](const Haina* a, const Haina* b) {
+              [](const Haina *a, const Haina *b) {
                   return a->getPret() > b->getPret();
               });
 
     std::cout << "\n=== SORTARE PRET DESCRESCATOR ===\n";
 
-    for (const auto h : v) {
+    for (const auto h: v) {
         h->afiseazaDetaliiComplete();
     }
 }
 
 void Boutique::afiseazaHaineSortateDupaRating() const {
-    std::vector<Haina*> v;
+    std::vector<Haina *> v;
 
     for (size_t i = 0; i < inventar.size(); i++) {
         v.push_back(inventar[i]);
     }
 
     std::sort(v.begin(), v.end(),
-              [](const Haina* a, const Haina* b) {
+              [](const Haina *a, const Haina *b) {
                   return a->getMediaRecenziilor() > b->getMediaRecenziilor();
               });
 
     std::cout << "\n=== SORTARE DUPA RATING ===\n";
 
-    for (const auto h : v) {
+    for (const auto h: v) {
         std::cout << h->getDenumire()
-                  << " | Pret: " << h->getPret()
-                  << " | Rating: " << h->getMediaRecenziilor()
-                  << "\n";
+                << " | Pret: " << h->getPret()
+                << " | Rating: " << h->getMediaRecenziilor()
+                << "\n";
+    }
+}
+
+// fct ajutatoare
+std::string toLower(std::string s) {
+    for (char& c : s) {
+        c = std::tolower(c);
+    }
+    return s;
+}
+
+// fct principala
+void Boutique::cautaHaineDupaNume(const std::string& text) const {
+    std::string cautare = toLower(text);
+
+    std::cout << "\n=== CAUTARE DUPA NUME ===\n";
+
+    bool gasit = false;
+
+    for (const Haina* h : inventar) {
+        std::string nume = toLower(h->getDenumire());
+
+        if (nume.find(cautare) != std::string::npos) {
+            h->afiseazaDetaliiComplete();
+            gasit = true;
+        }
+    }
+
+    if (!gasit) {
+        std::cout << "Nu exista produse care contin acest text.\n";
     }
 }
 
