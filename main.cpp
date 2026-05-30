@@ -322,13 +322,13 @@ int main() {
             } else if (optiune == 21) {
                 wl.curataExpirate();
             }
-        } catch (const ExceptieInput &e) {
+        } catch (const ExceptieInput &) {
             std::cout << "Eroare input!\n";
-        } catch (const ExceptieIndex &e) {
+        } catch (const ExceptieIndex &) {
             std::cout << "Index invalid!\n";
-        } catch (const ExceptieBuget &e) {
+        } catch (const ExceptieBuget &) {
             std::cout << "Fonduri insuficiente!\n";
-        } catch (const ExceptieStoc &e) {
+        } catch (const ExceptieStoc &) {
             std::cout << "Stoc indisponibil!\n";
         } catch (const std::exception &e) {
             std::cout << "Eroare generala: " << e.what() << "\n";
