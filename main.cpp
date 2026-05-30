@@ -18,6 +18,7 @@
 #include "include/HainaOffice.h"
 #include "include/HainaLuxury.h"
 #include "include/Wishlist.h"
+#include "include/Exceptii.h"
 
 int main() {
     Adresa adr{"Bucuresti", "Calea Victoriei", 101};
