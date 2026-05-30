@@ -77,15 +77,7 @@ void Boutique::recomandaAccesoriu(const Haina &hainaAleasa) const {
 
     std::cout << "[Sugestie stilistica]\n";
 
-    if (dynamic_cast<const HainaEleganta *>(&hainaAleasa)) {
-        std::cout << " Recomandare: Colier elegant sau geanta premium.\n";
-    } else if (dynamic_cast<const HainaSport *>(&hainaAleasa)) {
-        std::cout << " Recomandare: Rucsac sport sau sticla fitness.\n";
-    } else if (dynamic_cast<const HainaOffice *>(&hainaAleasa)) {
-        std::cout << " Recomandare: Ceas business sau geanta office.\n";
-    } else {
-        std::cout << " Recomandare: Accesorii casual cool.\n";
-    }
+    std::cout << " Recomandare: Accesorii potrivite stilului ales.\n";
 }
 
 size_t Boutique::getNrHaineInventar() const {
