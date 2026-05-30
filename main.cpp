@@ -16,7 +16,6 @@
 #include "include/HainaSport.h"
 #include "include/HainaCasual.h"
 #include "include/HainaOffice.h"
-#include "include/Exceptii.h"
 #include "include/HainaLuxury.h"
 #include "include/Wishlist.h"
 
