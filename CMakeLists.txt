@@ -73,17 +73,12 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         include/HainaOffice.h
         src/HainaCasual.cpp
         include/HainaCasual.h
-        src/Exceptii.cpp
-        include/Exceptii.h
         src/HainaLuxury.cpp
         include/HainaLuxury.h
         src/Wishlist.cpp
         include/Wishlist.h
 )
-target_sources(${MAIN_EXECUTABLE_NAME}
-    PRIVATE
-        src/Example.cpp
-)
+
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )
 # NOTE: RUN_SANITIZERS is optional, if it's not present it will default to true
