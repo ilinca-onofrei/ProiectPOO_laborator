@@ -298,7 +298,7 @@ int main() {
                 shop.afiseazaHaineSortateDupaPret();
             } else if (optiune == 14) {
                 std::cout << "Pret mediu: "
-                        << shop.calculeazaPretMediu()
+                        << shop.calculeazaPretMediu()//pt push
                         << " lei\n";
             } else if (optiune == 15) {
                 shop.afiseazaCategoriaDominanta();
