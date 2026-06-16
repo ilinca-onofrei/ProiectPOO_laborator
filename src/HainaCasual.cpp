@@ -14,3 +14,5 @@ void HainaCasual::afiseazaSpecific() const {
     std::cout << " -> [CASUAL] Sezon recomandat: " << sezon
             << " | Caracteristica: " << (areGluga ? "Cu gluga" : "Fara gluga") << "\n";
 }
+
+

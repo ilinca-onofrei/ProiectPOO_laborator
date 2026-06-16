@@ -22,3 +22,4 @@ double HainaLuxury::calculeazaScorStil() const {
 Haina *HainaLuxury::clone() const {
     return new HainaLuxury(*this);
 }
+

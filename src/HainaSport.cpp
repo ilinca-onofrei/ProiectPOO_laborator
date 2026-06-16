@@ -14,3 +14,5 @@ void HainaSport::afiseazaSpecific() const {
     std::cout << " -> [ECHIPAMENT SPORT] Destinat: " << tipActivitate
             << " | Nivel Compresie: " << nivelCompresie << "/5\n";
 }
+
+

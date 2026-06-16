@@ -58,7 +58,6 @@ void Boutique::afiseazaHaineDupaCategorie(const std::string &catCautata) const {
     if (!gasit) std::cout << "Nu am gasit haine in aceasta categorie.\n";
 }
 
-
 void Boutique::recomandaAccesoriu(const Haina &hainaAleasa) const {
     std::cout << "\n[Smart-Matching] Pentru " << hainaAleasa.getDenumire() << " recomandam:\n";
     bool gasit = false;

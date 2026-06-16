@@ -14,3 +14,4 @@ void HainaEleganta::afiseazaSpecific() const {
     std::cout << " -> [STIL ELEGANT] Material: " << material
             << " | Recomandat pentru: " << dressCode << "\n";
 }
+

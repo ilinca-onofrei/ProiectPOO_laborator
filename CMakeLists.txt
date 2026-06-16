@@ -77,6 +77,9 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         include/HainaLuxury.h
         src/Wishlist.cpp
         include/Wishlist.h
+        include/HainaFactory.h
+        include/ReducereStra.h
+        include/Colectie.h
 )
 
 

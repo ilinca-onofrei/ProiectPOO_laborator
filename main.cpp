@@ -19,6 +19,9 @@
 #include "include/HainaLuxury.h"
 #include "include/Wishlist.h"
 #include "include/Exceptii.h"
+#include "include/HainaFactory.h"
+#include "include/ReducereStra.h"
+#include "include/Colectie.h"
 
 int main() {
     Adresa adr{"Bucuresti", "Calea Victoriei", 101};
@@ -35,6 +38,14 @@ int main() {
     IstoricVanzari registru;
     std::vector<Haina *> stocInitial;
     Wishlist wl;
+
+    Colectie<int> c1;
+    c1.adauga(10);
+    c1.adauga(20);
+
+    Colectie<std::string> c2;
+    c2.adauga("rochie");
+    c2.adauga("pantofi");
 
     // CATEGORIA ELEGANTE
     stocInitial.push_back(new HainaEleganta("Rochie de Seara Velvet", "M", 450.0, "Catifea", "Gala"));
@@ -103,6 +114,18 @@ int main() {
     stocInitial.push_back(new HainaLuxury("Costum Luxury Royal", "XS", 5000.0, 1, 10));
     stocInitial.push_back(new HainaLuxury("Pantofi Luxury Handmade", "39", 2700.0, 2, 9));
     stocInitial.push_back(new HainaLuxury("Geaca Luxury Blana Naturala", "S", 6000.0, 1, 10));
+
+    Haina* hFactory = HainaFactory::creeazaHaina("sport");
+    if (hFactory) {
+        shop.adaugaHainaInStoc(*hFactory);
+        delete hFactory;
+    }
+
+    ReducereStrategy* r = new Reducere20();
+
+    double pret = 100;
+    std::cout << "Pret redus: " << r->aplica(pret) << "\n";
+    delete r;
 
     for (const Haina *h: stocInitial) {
         shop.adaugaHainaInStoc(*h);

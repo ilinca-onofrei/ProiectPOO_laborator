@@ -14,3 +14,5 @@ void HainaOffice::afiseazaSpecific() const {
     std::cout << " -> [BUSINESS] Grad Formalitate: " << gradFormalitate << "/10 | "
             << (necesitaCuratareChimica ? "Necesita curatare chimica." : "Se poate spala acasa.") << "\n";
 }
+
+
