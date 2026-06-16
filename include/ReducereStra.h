@@ -4,6 +4,7 @@
 class ReducereStrategy {
 public:
     virtual double aplica(double pret) = 0;
+
     virtual ~ReducereStrategy() = default;
 };
 

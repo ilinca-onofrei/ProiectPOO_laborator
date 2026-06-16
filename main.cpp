@@ -115,13 +115,13 @@ int main() {
     stocInitial.push_back(new HainaLuxury("Pantofi Luxury Handmade", "39", 2700.0, 2, 9));
     stocInitial.push_back(new HainaLuxury("Geaca Luxury Blana Naturala", "S", 6000.0, 1, 10));
 
-    Haina* hFactory = HainaFactory::creeazaHaina("sport");
+    Haina *hFactory = HainaFactory::creeazaHaina("sport");
     if (hFactory) {
         shop.adaugaHainaInStoc(*hFactory);
         delete hFactory;
     }
 
-    ReducereStrategy* r = new Reducere20();
+    ReducereStrategy *r = new Reducere20();
 
     double pret = 100;
     std::cout << "Pret redus: " << r->aplica(pret) << "\n";
@@ -288,12 +288,12 @@ int main() {
             } else if (optiune == 11) {
                 shop.afiseazaCeaMaiBunaHaina();
             } else if (optiune == 12) {
-                double pret;
+                double pretMax;
                 std::cout << "Introdu pret maxim: ";
 
                 if (!(std::cin >> pret)) break;
 
-                shop.afiseazaHaineSubPret(pret);
+                shop.afiseazaHaineSubPret(pretMax);
             } else if (optiune == 13) {
                 shop.afiseazaHaineSortateDupaPret();
             } else if (optiune == 14) {

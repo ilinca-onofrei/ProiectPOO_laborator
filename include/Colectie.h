@@ -4,16 +4,17 @@
 #include <vector>
 #include <iostream>
 
-template <typename T>
+template<typename T>
 class Colectie {
     std::vector<T> elem;
+
 public:
-    void adauga(const T& e) {
+    void adauga(const T &e) {
         elem.push_back(e);
     }
 
     void afiseaza() const {
-        for (const auto& x : elem)
+        for (const auto &x: elem)
             std::cout << x << "\n";
     }
 

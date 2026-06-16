@@ -9,8 +9,7 @@
 
 class HainaFactory {
 public:
-    static Haina* creeazaHaina(const std::string& tip) {
-
+    static Haina *creeazaHaina(const std::string &tip) {
         if (tip == "elegant")
             return new HainaEleganta("Rochie Factory", "M", 300, "Matase", "Eveniment");
         if (tip == "sport")
