@@ -288,7 +288,7 @@ int main() {
             } else if (optiune == 11) {
                 shop.afiseazaCeaMaiBunaHaina();
             } else if (optiune == 12) {
-                double pretMax=0;
+                double pretMax = 0;
                 std::cout << "Introdu pret maxim: ";
 
                 if (!(std::cin >> pret)) break;
