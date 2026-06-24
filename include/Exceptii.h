@@ -3,37 +3,45 @@
 
 #include <exception>
 
-class ExceptieStoc : public std::exception {
+// baza comuna pentru toate exceptiile !!!!
+class ExceptieMagazin : public std::exception {
 public:
-    const char *what() const noexcept override {
+    const char* what() const noexcept override {
+        return "Exceptie generala magazin!";
+    }
+};
+
+class ExceptieStoc : public ExceptieMagazin {
+public:
+    const char* what() const noexcept override {
         return "Stoc epuizat!";
     }
 };
 
-class ExceptieBuget : public std::exception {
+class ExceptieBuget : public ExceptieMagazin {
 public:
-    const char *what() const noexcept override {
+    const char* what() const noexcept override {
         return "Fonduri insuficiente!";
     }
 };
 
-class ExceptieIndex : public std::exception {
+class ExceptieIndex : public ExceptieMagazin {
 public:
-    const char *what() const noexcept override {
+    const char* what() const noexcept override {
         return "Index invalid!";
     }
 };
 
-class ExceptieReducere : public std::exception {
+class ExceptieReducere : public ExceptieMagazin {
 public:
-    const char *what() const noexcept override {
+    const char* what() const noexcept override {
         return "Procent de reducere invalid!";
     }
 };
 
-class ExceptieInput : public std::exception {
+class ExceptieInput : public ExceptieMagazin {
 public:
-    const char *what() const noexcept override {
+    const char* what() const noexcept override {
         return "Input invalid!";
     }
 };
