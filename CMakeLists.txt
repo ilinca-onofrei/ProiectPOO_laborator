@@ -80,6 +80,8 @@ add_executable(${MAIN_EXECUTABLE_NAME}
         include/HainaFactory.h
         include/ReducereStra.h
         include/Colectie.h
+        src/StilStrategy.cpp
+        include/StilStrategy.h
 )
 
 

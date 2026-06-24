@@ -4,6 +4,8 @@
 #include <iomanip>
 #include <cstdlib>
 #include <memory>
+#include <algorithm>
+
 
 #include "include/Adresa.h"
 #include "include/Promotie.h"
@@ -22,6 +24,7 @@
 #include "include/HainaFactory.h"
 #include "include/ReducereStra.h"
 #include "include/Colectie.h"
+#include "include/StilStrategy.h"
 
 int main() {
     Adresa adr{"Bucuresti", "Calea Victoriei", 101};
@@ -130,7 +133,7 @@ int main() {
     for (const Haina *h: stocInitial) {
         shop.adaugaHainaInStoc(*h);
     }
-
+    shop.recomandaAccesoriu(shop.getHainaDinInventar(0));
     shop.getManechin().incearcaHaina(shop.getHainaDinInventar(1));
     shop.getManechin().incearcaHaina(shop.getHainaDinInventar(13));
     shop.getManechin().incearcaHaina(shop.getHainaDinInventar(9));
@@ -239,7 +242,16 @@ int main() {
 
                 shop.getManechin().incearcaHaina(h);
                 h.scadeStoc();
-                shop.recomandaAccesoriu(h);
+                StilStrategy* stil;
+                if (h.getCategorie() == "Sport")
+                    stil = new StilSport();
+                else if (h.getCategorie() == "Eleganta")
+                    stil = new StilElegant();
+                else
+                    stil = new StilCasual();
+                stil->afiseaza();
+                delete stil;
+
             } else if (optiune == 4) {
                 shop.getManechin().dezbracaManechin();
             } else if (optiune == 5) {
@@ -291,7 +303,7 @@ int main() {
                 double pretMax = 0;
                 std::cout << "Introdu pret maxim: ";
 
-                if (!(std::cin >> pret)) break;
+                if (!(std::cin >> pretMax)) break;
 
                 shop.afiseazaHaineSubPret(pretMax);
             } else if (optiune == 13) {
@@ -312,6 +324,14 @@ int main() {
                         h.afiseazaDetaliiComplete();
                     }
                 }
+                int countScumpe = std::count_if(
+    stocInitial.begin(),
+    stocInitial.end(),
+    [](const Haina* h) {
+        return h->getPret() > 500;
+    });
+
+                std::cout << "Haine scumpe (>500): " << countScumpe << "\n";
             } else if (optiune == 17) {
                 int idx;
 
